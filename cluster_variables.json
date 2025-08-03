@@ -1,4 +1,5 @@
 {
+  "aws_region": "ap-southeast-2",
   "aws_subnet_ids": [
     "subnet-08125857ebf80a3af",
     "subnet-0b741e4a4b3ec9fb1",
