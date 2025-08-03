@@ -1,0 +1,19 @@
+{
+  "aws_subnet_ids": [
+    "subnet-08125857ebf80a3af",
+    "subnet-0b741e4a4b3ec9fb1",
+    "subnet-02eb39aa4bda6edc4",
+    "subnet-06ead296f98237cb8"
+  ],
+  "cluster_name": "this-cluster",
+  "openshift_version": "4.18.12",
+
+  "aws_availability_zones": [
+    "ap-southeast-2a",
+    "ap-southeast-2b",
+    "ap-southeast-2c"
+  ],
+  "replicas": 3,
+  "compute_machine_type": "m5.xlarge"
+  
+}
