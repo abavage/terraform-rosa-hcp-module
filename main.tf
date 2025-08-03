@@ -55,13 +55,12 @@ module "rosa_cluster_hcp" {
 
 
 module "rhcs_hcp_machine_pool" {
-  #source   = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/machine-pool"
+  #source   = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/machine-pool?ref=release-1.6.9
   source   = "terraform-redhat/rosa-hcp/rhcs//modules/machine-pool"
   version = "1.6.9"
   
   for_each = var.machine_pools
 
-  #cluster_id                  = try(module.rosa-hcp.cluster_id, "dummy")
   cluster_id                   = try(module.rosa_cluster_hcp.cluster_id, "dummy")
   name                         = each.value.name
   auto_repair                  = try(each.value.auto_repair, null)
@@ -78,22 +77,19 @@ module "rhcs_hcp_machine_pool" {
   ignore_deletion_error        = try(each.value.ignore_deletion_error, false)
 }
 
+module "htpasswd_idp" {
+  source = "terraform-redhat/rosa-hcp/rhcs//modules/idp"
+  version = "1.6.9"
 
-#module "htpasswd_idp" {
-#  source = "terraform-redhat/rosa-hcp/rhcs//modules/idp"
-#  version = "1.6.9"
-
-#  cluster_id         = module.rosa_cluster_hcp.id
-#  name               = "htpasswd-idp"
-#  idp_type           = "htpasswd"
-#  htpasswd_idp_users = jsonencode( 
-#    [
-#      { username = "some-user", 
-#        password = "Some-Complicated-123-Password"
-#      }
-#    ]
-#  )
-#}
+  cluster_id         = try(module.rosa_cluster_hcp.cluster_id, "dummy")
+  name               = "htpasswd"
+  idp_type           = "htpasswd"
+  htpasswd_idp_users = [
+    { username = "test-user", 
+      password = "Some-Complicated-123-Password"
+    }
+  ]
+}
 
 resource "random_string" "random" {
   length = 16
