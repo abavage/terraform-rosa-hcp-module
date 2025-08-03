@@ -27,9 +27,9 @@ module "rosa_cluster_hcp" {
   operator_role_prefix   = var.cluster_name
   openshift_version      = var.openshift_version
   aws_billing_account_id = "604574367752"
-  installer_role_arn     = module.account_iam_resources[0].account_roles_arn["HCP-ROSA-Installer"]
-  support_role_arn       = module.account_iam_resources[0].account_roles_arn["HCP-ROSA-Support"]
-  worker_role_arn        = module.account_iam_resources[0].account_roles_arn["HCP-ROSA-Worker"]
+  installer_role_arn     = module.account_iam_resources.account_roles_arn["HCP-ROSA-Installer"]
+  support_role_arn       = module.account_iam_resources.account_roles_arn["HCP-ROSA-Support"]
+  worker_role_arn        = module.account_iam_resources.account_roles_arn["HCP-ROSA-Worker"]
   oidc_config_id         = module.oidc_config_and_provider.oidc_config_id
   aws_subnet_ids         = var.aws_subnet_ids
   machine_cidr           = var.machine_cidr
