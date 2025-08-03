@@ -257,32 +257,32 @@ variable "aws_additional_compute_security_group_ids" {
 
 variable "cluster_autoscaler_enabled" {
   type        = bool
-  default     = false
+  default     = true
   description = "Enable Autoscaler for this cluster. This resource is currently unavailable and using will result in error 'Autoscaler configuration is not available'"
 }
 
 variable "autoscaler_max_pod_grace_period" {
   type        = number
-  default     = null
+  default     = 600
   description = "Gives pods graceful termination time before scaling down."
 }
 
 variable "autoscaler_pod_priority_threshold" {
   type        = number
-  default     = null
+  default     = -10
   description = "To allow users to schedule 'best-effort' pods, which shouldn't trigger Cluster Autoscaler actions, but only run when there are spare resources available."
 }
 
 variable "autoscaler_max_node_provision_time" {
   type        = string
-  default     = null
+  default     = "15m"
   description = "Maximum time cluster-autoscaler waits for node to be provisioned."
 }
 
 variable "autoscaler_max_nodes_total" {
   type        = number
   default     = null
-  description = "Maximum number of nodes in all node groups. Cluster autoscaler will not grow the cluster beyond this number."
+  description = "Maximum number of nodes in all node groups. Cluster autoscaler will not grow the cluster beyond this number. Passed in at the cluster file"
 }
 
 ##############################################################
@@ -334,5 +334,119 @@ variable "installer_role_arn" {
 }
 
 
+
+## machinepools
+// Required
+variable "cluster_id" {
+  description = "Identifier of the cluster."
+  type        = string
+  default     = null
+}
+
+// Required
+#variable "name" {
+#  description = "Name of the machine pool. Must consist of lower-case alphanumeric characters or '-', start and end with an alphanumeric character."
+#  type        = string
+#}
+
+#variable "replicas" {
+#  description = "The amount of the machine created in this machine pool."
+#  type        = number
+#  default     = null
+#}
+
+variable "taints" {
+  description = "Taints for a machine pool. This list will overwrite any modifications made to node taints on an ongoing basis."
+  type = list(object({
+    key           = string
+    value         = string
+    schedule_type = string
+  }))
+  default = null
+}
+
+variable "labels" {
+  description = "Labels for the machine pool. Format should be a comma-separated list of 'key = value'. This list will overwrite any modifications made to node labels on an ongoing basis."
+  type        = map(string)
+  default     = null
+}
+
+#variable "subnet_id" {
+#  description = "Select the subnet in which to create a single AZ machine pool for BYO-VPC cluster"
+#  type        = string
+#  nullable    = false
+#}
+
+variable "autoscaling" {
+  type = object({
+    enabled      = bool
+    min_replicas = number
+    max_replicas = number
+  })
+  default = {
+    enabled      = true
+    min_replicas = null
+    max_replicas = null
+  }
+  nullable    = false
+  description = "Configures autoscaling for the pool."
+}
+
+variable "auto_repair" {
+  type        = bool
+  default     = true
+  description = "Configures auto repair option for the pool."
+}
+
+variable "tuning_configs" {
+  type        = list(string)
+  default     = null
+  description = "A list of tuning config names to attach to this machine pool. The tuning configs must already exist"
+}
+
+variable "kubelet_configs" {
+  type        = string
+  default     = null
+  description = "Name of the kubelet configs to attach to this machine pool. The kubelet configs must already exist"
+}
+
+variable "ignore_deletion_error" {
+  type        = bool
+  default     = false
+  description = "Ignore machine pool deletion error. Assists when cluster resource is managed within the same file for the destroy use case"
+}
+
+## custom
+variable "machine_pools" {
+  default = {}
+  type = map(object({
+    name = string
+    aws_node_pool = object({
+      instance_type                 = string
+      additional_security_group_ids = list(string)
+      tags                          = map(string)
+    })
+    autoscaling = optional(object({
+      enabled      = optional(bool)
+      min_replicas = optional(string)
+      max_replicas = optional(string)
+    }))
+    auto_repair           = optional(bool)
+    replicas              = optional(number)
+    openshift_version     = string
+    subnet_id             = string
+    ignore_deletion_error = optional(bool)
+    kubelet_configs       = optional(string)
+    labels                = optional(map(string))
+    taints = optional(list(object({
+      key           = optional(string)
+      value         = optional(string)
+      schedule_type = optional(string)
+    })))
+    tuning_configs               = optional(list(string))
+    upgrade_acknowledgements_for = optional(string)
+  }))
+  description = "map of machine pools to create generated from the json input file."
+}
 
 

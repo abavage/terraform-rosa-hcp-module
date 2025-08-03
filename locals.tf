@@ -17,5 +17,4 @@ locals {
   default_machine_pools_replicas = 3
   default_machine_pools_instance_type = "m5.xlarge"
 
-
 }
