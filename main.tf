@@ -1,8 +1,7 @@
 module "oidc_config_and_provider" {
   source = "terraform-redhat/rosa-hcp/rhcs//modules/oidc-config-and-provider"
   #version = "1.6.9"
-
-  #installer_role_arn = module.account_iam_resources.account_roles_arn["HCP-ROSA-Installer"]
+  
 }
 
 module "account_iam_resources" {
