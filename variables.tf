@@ -1,6 +1,13 @@
 
 ## rosa-cluster-hcp
 
+variable "RHCS_TOKEN" {
+  type        = string
+  sensitive   = true
+  default     = ""
+  description = "token from ocm to biuld the cluster https://console.redhat.com"
+}
+
 variable "cluster_name" {
   type        = string
   description = "Name of the cluster. After the creation of the resource, it is not possible to update the attribute value."
@@ -63,8 +70,20 @@ variable "account_role_prefix" {
 
 variable "aws_subnet_ids" {
   type        = list(string)
-  nullable    = false
+  default     = null
   description = "The Subnet IDs to use when installing the cluster."
+}
+
+variable "private_aws_subnet_ids" {
+  type        = list(string)
+  default     = []
+  description = "list of the private subnets" 
+}
+
+variable "public_aws_subnet_ids" {
+  type        = list(string)
+  default     = []
+  description = "list of the public subnets" 
 }
 
 variable "kms_key_arn" {
@@ -168,11 +187,17 @@ variable "additional_trust_bundle" {
 ##############################################################
 
 variable "properties" {
-  description = "User defined properties."
+  description = "User defined properties. zero_egress needs to be a private cluster"
   type        = map(string)
   default     = {
-    zero_egress = true
+    zero_egress = false
   }
+}
+
+variable "enable-ecr-role-nodes" {
+  type        = bool
+  description = "enable iam role on nodes to pull images from ecr"
+  default     = true
 }
 
 variable "tags" {
@@ -199,7 +224,7 @@ variable "wait_for_std_compute_nodes_complete" {
 
 variable "etcd_encryption" {
   type        = bool
-  default     = null
+  default     = true
   description = "Add etcd encryption. By default etcd data is encrypted at rest. This option configures etcd encryption on top of existing storage encryption."
 }
 
@@ -211,7 +236,7 @@ variable "disable_waiting_in_destroy" {
 
 variable "destroy_timeout" {
   type        = number
-  default     = null
+  default     = 60
   description = "Maximum duration in minutes to allow for destroying resources. (Default: 60 minutes)"
 }
 
@@ -337,11 +362,11 @@ variable "installer_role_arn" {
 
 ## machinepools
 // Required
-variable "cluster_id" {
-  description = "Identifier of the cluster."
-  type        = string
-  default     = null
-}
+#variable "cluster_id" {
+#  description = "Identifier of the cluster."
+#  type        = string
+#  #default     = null
+#}
 
 // Required
 #variable "name" {
@@ -411,6 +436,12 @@ variable "kubelet_configs" {
 }
 
 variable "ignore_deletion_error" {
+  type        = bool
+  default     = false
+  description = "Ignore machine pool deletion error. Assists when cluster resource is managed within the same file for the destroy use case"
+}
+
+variable "ignore_machine_pools_deletion_error" {
   type        = bool
   default     = false
   description = "Ignore machine pool deletion error. Assists when cluster resource is managed within the same file for the destroy use case"

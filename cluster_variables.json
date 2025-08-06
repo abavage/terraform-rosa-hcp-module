@@ -1,13 +1,15 @@
 {
-  "aws_region": "ap-southeast-2",
-  "aws_subnet_ids": [
-    "subnet-08125857ebf80a3af",
-    "subnet-0b741e4a4b3ec9fb1",
-    "subnet-02eb39aa4bda6edc4",
-    "subnet-06ead296f98237cb8"
-  ],
   "cluster_name": "this-cluster",
   "openshift_version": "4.18.12",
+  "aws_region": "ap-southeast-2",
+  "private_aws_subnet_ids": [
+    "subnet-0ffec28d624bb97f4",
+    "subnet-0c25cbcd3d48dc61b",
+    "subnet-0da2f84176f37cca9"
+  ],
+  "public_aws_subnet_ids": [
+    "subnet-05d88385d651a8567"
+  ],
 
   "aws_availability_zones": [
     "ap-southeast-2a",
@@ -24,7 +26,6 @@
 
  "autoscaler_max_nodes_total": 18,
 
-  
   "machine_pools": {
     "pool-01": {
       "name": "pool-01",
@@ -44,7 +45,7 @@
         "max_replicas": 1
       },
       "openshift_version": "4.18.12",
-      "subnet_id": "subnet-0b741e4a4b3ec9fb1"
+      "subnet_id": "subnet-0ffec28d624bb97f4"
     },
     "pool-02": {
       "name": "pool-02",
@@ -64,7 +65,7 @@
         "this": "that"
       },
       "openshift_version": "4.18.12",
-      "subnet_id": "subnet-02eb39aa4bda6edc4"
+      "subnet_id": "subnet-0c25cbcd3d48dc61b"
     },
     "pool-03": {
       "name": "pool-03",
@@ -84,7 +85,7 @@
         "max_replicas": 1
       },
       "openshift_version": "4.18.12",
-      "subnet_id": "subnet-06ead296f98237cb8"
+      "subnet_id": "subnet-0da2f84176f37cca9"
     }
   }
 }
