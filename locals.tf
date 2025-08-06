@@ -19,8 +19,4 @@ locals {
     var.private_aws_subnet_ids
   )
 
-  default_machine_pools_replicas = 3
-  default_machine_pools_instance_type = "m5.xlarge"
-
-
 }
