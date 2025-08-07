@@ -1,11 +1,13 @@
 module "oidc_config_and_provider" {
-  source = "terraform-redhat/rosa-hcp/rhcs//modules/oidc-config-and-provider"
+  #source = "terraform-redhat/rosa-hcp/rhcs//modules/oidc-config-and-provider"
+  source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/oidc-config-and-provider"
   #version = "1.6.9"
-  
+
 }
 
 module "account_iam_resources" {
-  source = "terraform-redhat/rosa-hcp/rhcs//modules/account-iam-resources"
+  #source = "terraform-redhat/rosa-hcp/rhcs//modules/account-iam-resources"
+  source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/account-iam-resources"
   #version = "1.6.9"
 
   account_role_prefix  = var.cluster_name
@@ -13,7 +15,8 @@ module "account_iam_resources" {
 }
 
 module "operator_roles" {
-  source = "terraform-redhat/rosa-hcp/rhcs//modules/operator-roles"
+  #source = "terraform-redhat/rosa-hcp/rhcs//modules/operator-roles"
+  source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/operator-roles"
   #version = "1.6.9"
 
   operator_role_prefix = var.cluster_name
@@ -24,7 +27,8 @@ module "operator_roles" {
 
 
 module "rosa_cluster_hcp" {
-  source = "terraform-redhat/rosa-hcp/rhcs//modules/rosa-cluster-hcp"
+  #source = "terraform-redhat/rosa-hcp/rhcs//modules/rosa-cluster-hcp"
+  source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/rosa-cluster-hcp"
   #version = "1.6.9"
 
   cluster_name           = var.cluster_name
@@ -40,6 +44,7 @@ module "rosa_cluster_hcp" {
   service_cidr           = var.service_cidr
   pod_cidr               = var.pod_cidr
   host_prefix            = var.host_prefix
+  tags                   = local.tags
   private                = var.private
   properties             = var.properties
 
@@ -72,7 +77,8 @@ module "rosa_cluster_hcp" {
 
 module "rhcs_hcp_machine_pool" {
   #source   = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/machine-pool?ref=release-1.6.9
-  source   = "terraform-redhat/rosa-hcp/rhcs//modules/machine-pool"
+  source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/machine-pool"
+  #source   = "terraform-redhat/rosa-hcp/rhcs//modules/machine-pool"
   #version = "1.6.9"
   
   for_each = var.machine_pools
@@ -93,18 +99,15 @@ module "rhcs_hcp_machine_pool" {
   subnet_id                    = each.value.subnet_id
   kubelet_configs              = try(each.value.kubelet_configs, null)
   ignore_deletion_error        = try(each.value.ignore_deletion_error, var.ignore_machine_pools_deletion_error)
-  
-  depends_on = [
-    module.rosa_cluster_hcp
-  ]
-
 }
 
-module "htpasswd_idp" {
-  source = "terraform-redhat/rosa-hcp/rhcs//modules/idp"
+module "rhcs_hcp_idp" {
+  #source = "terraform-redhat/rosa-hcp/rhcs//modules/idp"
+  source   = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/idp"
   #version = "1.6.9"
 
-  cluster_id         = try(module.rosa_cluster_hcp.cluster_id, "dummy")
+  #cluster_id         = try(module.rosa_cluster_hcp.cluster_id, "dummy")
+  cluster_id         = (try(module.rosa_cluster_hcp.cluster_id, "") != "" ? module.rosa_cluster_hcp.cluster_id : null )
   name               = "htpasswd"
   idp_type           = "htpasswd"
   htpasswd_idp_users = [

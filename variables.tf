@@ -230,7 +230,7 @@ variable "etcd_encryption" {
 
 variable "disable_waiting_in_destroy" {
   type        = bool
-  default     = null
+  default     = false
   description = "Disable addressing cluster state in the destroy resource. Default value is false, and so a `destroy` will wait for the cluster to be deleted."
 }
 

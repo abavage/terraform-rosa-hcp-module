@@ -10,8 +10,8 @@ locals {
     cluster_name = var.cluster_name
     region       = "ap-southeast-2"
     this         = "that"
-    one          = "one"
-    two          = "two"
+    one          = "two"
+    three        = "four"
   }
 
   rosa_aws_subnet_ids = concat (
