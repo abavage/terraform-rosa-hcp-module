@@ -89,9 +89,9 @@ module "rosa_cluster_hcp" {
   ########
   # Proxy 
   ########
-  http_proxy              = var.http_proxy
-  https_proxy             = var.https_proxy
-  no_proxy                = var.no_proxy
+  http_proxy              = local.http_proxy
+  https_proxy             = local.https_proxy
+  no_proxy                = local.no_proxy
   additional_trust_bundle = var.additional_trust_bundle
 
   #############

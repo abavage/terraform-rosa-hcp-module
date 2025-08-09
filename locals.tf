@@ -19,6 +19,9 @@ locals {
     var.private_aws_subnet_ids
   )
 
+  http_proxy  = ""
+  https_proxy = ""
+  no_proxy    = ""
 
   cloudwatch_siem_role_iam_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-seim-logging-cloudwatch-role"
 
