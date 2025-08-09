@@ -7,7 +7,7 @@ terraform {
       version = ">= 5.38.0"
     }
     rhcs = {
-      version = "1.6.9"
+      version = "1.7.0"
       source  = "terraform-redhat/rhcs"
     }
     shell = {
@@ -35,3 +35,4 @@ provider "shell" {
   sensitive_environment = {
   }
 }
+

@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# exec >enable-autoscalers-workers.log 2>&1
+# --- Error Handling Configuration ---
+# Exit immediately if a command exits with a non-zero status.
+set -e
+# Ensures that ERR trap is inherited by shell functions
+set -E
+# --- Exit Functions ---
+# Function for a clean, successful exit
+good_exit() {
+  local message="$1"
+  echo "INFO: $message"
+  echo '{"status": "success", "message": "'"$message"'"}'
+  exit 0
+}
+# Function for failures
+bad_exit() {
+  local error_message="$1"
+  echo "ERROR: $error_message" >&2
+  echo '{"status": "failure", "message": "'"$error_message"'"}'
+  exit 1
+}
+# --- Trap Handler for Errors ---
+handle_error() {
+  local last_command="$BASH_COMMAND"
+  local line_number="$BASH_LINENO[0]"
+  bad_exit "Script failed at line $line_number executing command: '$last_command'"
+}
+# Set the trap: When an error occurs, call handle_error
+trap 'handle_error' ERR
+
+# --- Script Logic Starts Here ---
+
+echo "#########################################"
+echo "Enable Autoscaling Script Start"
+echo "Current Date: $(date)"
+echo "#########################################"
+
+# Authenticate with ROSA
+echo "Attempting ROSA login..."
+rosa login -t "${token}" --debug
+echo "ROSA login successful."
+
+# Conditional logic for enabling autoscaling on the default workers machinepools
+if [[ "${enable}" == true ]]; then
+  echo "Enabling autoscaling on workers-0 for cluster '${cluster}'"
+  rosa edit machinepool -c "${cluster}" --enable-autoscaling --min-replicas "${default_workers_min_replcias}" --max-replicas "${default_workers_max_replcias}" --labels '${default_workers_labels_csv}' workers-0
+  rosa edit machinepool -c "${cluster}" --enable-autoscaling --min-replicas "${default_workers_min_replcias}" --max-replicas "${default_workers_max_replcias}" workers-1
+  rosa edit machinepool -c "${cluster}" --enable-autoscaling --min-replicas "${default_workers_min_replcias}" --max-replicas "${default_workers_max_replcias}" workers-2
+  good_exit "Autoscaling enabled successfully on workers-0, workers-1, and workers-2 for cluster '${cluster}'."
+else
+  echo "Can't disable autoscaling on machinepools on cluster '${cluster}'..."
+  rosa list machinepool -c "${cluster}"
+  good_exit "Can't disable autoscaling on machinepools on cluster '${cluster}'..."
+fi

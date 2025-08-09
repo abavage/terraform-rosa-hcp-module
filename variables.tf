@@ -1,35 +1,12 @@
-
-## rosa-cluster-hcp
-
-variable "RHCS_TOKEN" {
-  type        = string
-  sensitive   = true
-  default     = ""
-  description = "token from ocm to biuld the cluster https://console.redhat.com"
-}
-
-variable "cluster_name" {
-  type        = string
-  description = "Name of the cluster. After the creation of the resource, it is not possible to update the attribute value."
-}
-
 variable "aws_region" {
   type        = string
   default     = null
   description = "The full name of the AWS region used for the ROSA cluster installation, for example 'us-east-1'. If no information is provided, the data will be retrieved from the currently connected account."
 }
 
-
-variable "openshift_version" {
+variable "cluster_name" {
   type        = string
-  description = "Desired version of OpenShift for the cluster, for example '4.1.0'. If version is greater than the currently running version, an upgrade will be scheduled."
-  default     = null
-}
-
-variable "aws_account_id" {
-  type        = string
-  default     = null
-  description = "The AWS account identifier where all resources are created during the installation of the ROSA cluster. If no information is provided, the data will be retrieved from the currently connected account."
+  description = "Name of the cluster. After the creation of the resource, it is not possible to update the attribute value."
 }
 
 variable "aws_billing_account_id" {
@@ -38,53 +15,22 @@ variable "aws_billing_account_id" {
   description = "The AWS billing account identifier where all resources are billed. If no information is provided, the data will be retrieved from the currently connected account."
 }
 
-variable "aws_account_arn" {
+variable "openshift_version" {
   type        = string
-  default     = null
-  description = "The ARN of the AWS account where all resources are created during the installation of the ROSA cluster. If no information is provided, the data will be retrieved from the currently connected account."
+  description = "Desired version of OpenShift for the cluster, for example '4.1.0'. If version is greater than the currently running version, an upgrade will be scheduled."
 }
 
 variable "oidc_config_id" {
   type        = string
-  description = "The unique identifier associated with users authenticated through OpenID Connect (OIDC) within the ROSA cluster."
   default     = null
+  description = "The unique identifier associated with users authenticated through OpenID Connect (OIDC) within the ROSA cluster. If create_oidc is false this attribute is required."
 }
 
-variable "support_role_arn" {
-  type        = string
-  default     = null
-  description = "The Amazon Resource Name (ARN) associated with the AWS IAM role used by Red Hat SREs to enable access to the cluster account in order to provide support."
-}
-
-variable "worker_role_arn" {
-  type        = string
-  default     = null
-  description = "The Amazon Resource Name (ARN) associated with the AWS IAM role that will be used by the cluster's compute instances."
-}
-
-variable "account_role_prefix" {
-  type        = string
-  default     = null
-  description = "User-defined prefix for all generated AWS resources (default \"account-role-<random>\")"
-}
-
-variable "aws_subnet_ids" {
-  type        = list(string)
-  default     = null
-  description = "The Subnet IDs to use when installing the cluster."
-}
-
-variable "private_aws_subnet_ids" {
-  type        = list(string)
-  default     = []
-  description = "list of the private subnets" 
-}
-
-variable "public_aws_subnet_ids" {
-  type        = list(string)
-  default     = []
-  description = "list of the public subnets" 
-}
+#variable "aws_subnet_ids" {
+#  type        = list(string)
+#  description = "The Subnet IDs to use when installing the cluster."
+#  nullable    = false
+#}
 
 variable "kms_key_arn" {
   type        = string
@@ -100,8 +46,7 @@ variable "etcd_kms_key_arn" {
 
 variable "private" {
   type        = bool
-  default     = false
-  nullable    = false
+  default     = null
   description = "Restrict master API endpoint and application routes to direct, private connectivity. (default: false)"
 }
 
@@ -137,7 +82,7 @@ variable "create_admin_user" {
 
 variable "admin_credentials_username" {
   type        = string
-  default     = "cluster-admin"
+  default     = null
   description = "Admin username that is created with the cluster. auto generated username - \"cluster-admin\""
 }
 
@@ -187,17 +132,11 @@ variable "additional_trust_bundle" {
 ##############################################################
 
 variable "properties" {
-  description = "User defined properties. zero_egress needs to be a private cluster"
+  description = "User defined properties."
   type        = map(string)
   default     = {
     zero_egress = false
   }
-}
-
-variable "enable-ecr-role-nodes" {
-  type        = bool
-  description = "enable iam role on nodes to pull images from ecr"
-  default     = true
 }
 
 variable "tags" {
@@ -219,24 +158,24 @@ variable "wait_for_create_complete" {
 variable "wait_for_std_compute_nodes_complete" {
   type        = bool
   default     = true
-  description = "Wait until the cluster standard compute nodes are available. The waiter has a timeout of 60 minutes. (default: true)"
+  description = "Wait until the initial set of machine pools to be available. The waiter has a timeout of 60 minutes. (default: true)"
 }
 
 variable "etcd_encryption" {
   type        = bool
-  default     = true
+  default     = null
   description = "Add etcd encryption. By default etcd data is encrypted at rest. This option configures etcd encryption on top of existing storage encryption."
 }
 
 variable "disable_waiting_in_destroy" {
   type        = bool
-  default     = false
+  default     = null
   description = "Disable addressing cluster state in the destroy resource. Default value is false, and so a `destroy` will wait for the cluster to be deleted."
 }
 
 variable "destroy_timeout" {
   type        = number
-  default     = 60
+  default     = null
   description = "Maximum duration in minutes to allow for destroying resources. (Default: 60 minutes)"
 }
 
@@ -249,7 +188,7 @@ variable "upgrade_acknowledgements_for" {
 
 ##############################################################
 # Default Machine Pool Variables
-# These attributes are specifically applies for the default Machine Pool and becomes irrelevant once the resource is created.
+# These attributes specifically apply to the default Machine Pool and become irrelevant once the resource is created.
 # Any modifications to the default Machine Pool should be made through the Terraform imported Machine Pool resource.
 ##############################################################
 
@@ -258,12 +197,12 @@ variable "replicas" {
   default     = null
   description = "Number of worker nodes to provision. This attribute is applicable solely when autoscaling is disabled. Single zone clusters need at least 2 nodes, multizone clusters need at least 3 nodes. Hosted clusters require that the number of worker nodes be a multiple of the number of private subnets. (default: 2)"
 }
-
 variable "compute_machine_type" {
   type        = string
   default     = null
   description = "Identifies the Instance type used by the default worker machine pool e.g. `m5.xlarge`. Use the `rhcs_machine_types` data source to find the possible values."
 }
+
 variable "aws_availability_zones" {
   type        = list(string)
   default     = []
@@ -275,6 +214,7 @@ variable "aws_additional_compute_security_group_ids" {
   default     = null
   description = "The additional security group IDs to be added to the default worker machine pool."
 }
+
 
 ##############################################################
 # Autoscaler resource variables
@@ -307,7 +247,7 @@ variable "autoscaler_max_node_provision_time" {
 variable "autoscaler_max_nodes_total" {
   type        = number
   default     = null
-  description = "Maximum number of nodes in all node groups. Cluster autoscaler will not grow the cluster beyond this number. Passed in at the cluster file"
+  description = "Maximum number of nodes in all node groups. Cluster autoscaler will not grow the cluster beyond this number."
 }
 
 ##############################################################
@@ -318,127 +258,93 @@ variable "default_ingress_listening_method" {
   default     = ""
   description = "Listening Method for ingress. Options are [\"internal\", \"external\"]. Default is \"external\". When empty is set based on private variable."
 }
-
-
-## operator roles
-variable "operator_role_prefix" {
-  type        = string
-  description = "Prefix to be used when creating the operator roles"
-  default     = null
-}
+##############################################################
+# General variables
+# Relevant to "account roles", "operator roles" and "OIDC"
+##############################################################
 
 variable "path" {
-  description = "(Optional) The arn path for the account/operator roles as well as their policies. Must begin and end with '/'."
   type        = string
   default     = "/"
+  description = "The arn path for the account/operator roles as well as their policies. Must begin and end with '/'."
 }
 
 variable "permissions_boundary" {
-  description = "The ARN of the policy that is used to set the permissions boundary for the IAM roles in STS clusters."
   type        = string
   default     = ""
+  description = "The ARN of the policy that is used to set the permissions boundary for the IAM roles in STS clusters."
+}
+
+##############################################################
+# Account Roles
+##############################################################
+
+variable "create_account_roles" {
+  type        = bool
+  default     = false
+  description = "Create the aws account roles for rosa"
+}
+
+variable "account_role_prefix" {
+  type        = string
+  default     = null
+  description = "User-defined prefix for all generated AWS resources (default \"account-role-<random>\")"
+}
+
+##############################################################
+# OIDC provider and config
+##############################################################
+
+variable "create_oidc" {
+  description = "Create the oidc resources. This value should not be updated, please create a new resource instead or utilize the submodule to create a new oidc config"
+  type        = bool
+  default     = false
+}
+
+variable "managed_oidc" {
+  description = "OIDC type managed or unmanaged oidc. Only active when create_oidc also enabled. This value should not be updated, please create a new resource instead"
+  type        = bool
+  default     = true
+}
+
+##############################################################
+# Operator policies and roles
+##############################################################
+
+variable "create_operator_roles" {
+  description = "Create the aws account roles for rosa"
+  type        = bool
+  default     = false
+}
+
+variable "operator_role_prefix" {
+  type        = string
+  default     = null
+  description = "User-defined prefix for generated AWS operator policies. Use \"account-role-prefix\" in case no value provided."
 }
 
 variable "oidc_endpoint_url" {
-  description = "oidc provider url"
   type        = string
   default     = null
+  description = "Registered OIDC configuration issuer URL, added as the trusted relationship to the operator roles. Valid only when create_oidc is false."
 }
 
-## oidc
-variable "managed" {
-  type        = bool
-  default     = true
-  description = "Indicates whether it is a Red Hat managed or unmanaged (Customer hosted) OIDC Configuration. This value should not be updated, please create a new resource instead."
+variable "machine_pools" {
+  type = map(any)
+  default     = {}
+  description = "Provides a generic approach to add multiple machine pools after the creation of the cluster. This variable allows users to specify configurations for multiple machine pools in a flexible and customizable manner, facilitating the management of resources post-cluster deployment. For additional details regarding the variables utilized, refer to the [machine-pool sub-module](./modules/machine-pool). For non-primitive variables (such as maps, lists, and objects), supply the JSON-encoded string."
 }
 
-variable "installer_role_arn" {
-  type        = string
-  default     = null
-  description = "The Amazon Resource Name (ARN) associated with the AWS IAM role used by the ROSA installer. Applicable exclusively to unmanaged OIDC; otherwise, leave empty."
-}
-
-
-
-## machinepools
-// Required
-#variable "cluster_id" {
-#  description = "Identifier of the cluster."
-#  type        = string
-#  #default     = null
-#}
-
-// Required
-#variable "name" {
-#  description = "Name of the machine pool. Must consist of lower-case alphanumeric characters or '-', start and end with an alphanumeric character."
-#  type        = string
-#}
-
-#variable "replicas" {
-#  description = "The amount of the machine created in this machine pool."
-#  type        = number
-#  default     = null
-#}
-
-variable "taints" {
-  description = "Taints for a machine pool. This list will overwrite any modifications made to node taints on an ongoing basis."
-  type = list(object({
-    key           = string
-    value         = string
-    schedule_type = string
-  }))
-  default = null
-}
-
-variable "labels" {
-  description = "Labels for the machine pool. Format should be a comma-separated list of 'key = value'. This list will overwrite any modifications made to node labels on an ongoing basis."
-  type        = map(string)
-  default     = null
-}
-
-#variable "subnet_id" {
-#  description = "Select the subnet in which to create a single AZ machine pool for BYO-VPC cluster"
-#  type        = string
-#  nullable    = false
-#}
-
-variable "autoscaling" {
-  type = object({
-    enabled      = bool
-    min_replicas = number
-    max_replicas = number
-  })
-  default = {
-    enabled      = true
-    min_replicas = null
-    max_replicas = null
-  }
-  nullable    = false
-  description = "Configures autoscaling for the pool."
-}
-
-variable "auto_repair" {
-  type        = bool
-  default     = true
-  description = "Configures auto repair option for the pool."
-}
-
-variable "tuning_configs" {
-  type        = list(string)
-  default     = null
-  description = "A list of tuning config names to attach to this machine pool. The tuning configs must already exist"
+variable "identity_providers" {
+  type        = map(any)
+  default     = {}
+  description = "Provides a generic approach to add multiple identity providers after the creation of the cluster. This variable allows users to specify configurations for multiple identity providers in a flexible and customizable manner, facilitating the management of resources post-cluster deployment. For additional details regarding the variables utilized, refer to the [idp sub-module](./modules/idp). For non-primitive variables (such as maps, lists, and objects), supply the JSON-encoded string."
 }
 
 variable "kubelet_configs" {
-  type        = string
-  default     = null
-  description = "Name of the kubelet configs to attach to this machine pool. The kubelet configs must already exist"
-}
-
-variable "ignore_deletion_error" {
-  type        = bool
-  default     = false
-  description = "Ignore machine pool deletion error. Assists when cluster resource is managed within the same file for the destroy use case"
+  type        = map(any)
+  default     = {}
+  description = "Provides a generic approach to add multiple kubelet configs after the creation of the cluster. This variable allows users to specify configurations for multiple kubelet configs in a flexible and customizable manner, facilitating the management of resources post-cluster deployment. For additional details regarding the variables utilized, refer to the [idp sub-module](./modules/kubelet-configs). For non-primitive variables (such as maps, lists, and objects), supply the JSON-encoded string." 
 }
 
 variable "ignore_machine_pools_deletion_error" {
@@ -446,38 +352,3 @@ variable "ignore_machine_pools_deletion_error" {
   default     = false
   description = "Ignore machine pool deletion error. Assists when cluster resource is managed within the same file for the destroy use case"
 }
-
-## custom
-variable "machine_pools" {
-  default = {}
-  type = map(object({
-    name = string
-    aws_node_pool = object({
-      instance_type                 = string
-      additional_security_group_ids = list(string)
-      tags                          = map(string)
-    })
-    autoscaling = optional(object({
-      enabled      = optional(bool)
-      min_replicas = optional(string)
-      max_replicas = optional(string)
-    }))
-    auto_repair           = optional(bool)
-    replicas              = optional(number)
-    openshift_version     = string
-    subnet_id             = string
-    ignore_deletion_error = optional(bool)
-    kubelet_configs       = optional(string)
-    labels                = optional(map(string))
-    taints = optional(list(object({
-      key           = optional(string)
-      value         = optional(string)
-      schedule_type = optional(string)
-    })))
-    tuning_configs               = optional(list(string))
-    upgrade_acknowledgements_for = optional(string)
-  }))
-  description = "map of machine pools to create generated from the json input file."
-}
-
-

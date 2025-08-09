@@ -1,14 +1,20 @@
 {
   "cluster_name": "this-cluster",
-  "openshift_version": "4.18.12",
+  "openshift_version": "4.19.5",
   "aws_region": "ap-southeast-2",
   "private_aws_subnet_ids": [
-    "subnet-0ffec28d624bb97f4",
-    "subnet-0c25cbcd3d48dc61b",
-    "subnet-0da2f84176f37cca9"
+    "subnet-028a1a7bc310e4f7f",
+    "subnet-07e510efab5aa67c4",
+    "subnet-0252accab1d729376"
   ],
   "public_aws_subnet_ids": [
-    "subnet-05d88385d651a8567"
+    "subnet-0bd20e56bdc05c872"
+  ],
+
+  "aws_private_subnet_cidrs": [
+    "10.0.8.0/23",
+    "10.0.10.0/23",
+    "10.0.12.0/23"
   ],
 
   "aws_availability_zones": [
@@ -19,12 +25,23 @@
   "replicas": 3,
   "compute_machine_type": "m5.xlarge",
 
+  "private": false,
+
+  "etcd_encryption": true,
+
+  "default_workers_min_replicas": 1,
+  "default_workers_max_replicas": 3,
+
+  "default_workers_labels": {
+    "k8s.ovn.org/egress-assignable": ""
+  },
+
   "machine_cidr": "10.0.0.0/16",
   "service_cidr": "172.30.0.0/16",
   "pod_cidr": "10.128.0.0/14",
   "host_prefix": "23",
 
- "autoscaler_max_nodes_total": 18,
+  "autoscaler_max_nodes_total": 24,
 
   "machine_pools": {
     "pool-01": {
@@ -44,8 +61,8 @@
         "min_replicas": 1,
         "max_replicas": 1
       },
-      "openshift_version": "4.18.12",
-      "subnet_id": "subnet-0ffec28d624bb97f4"
+      "openshift_version": "4.19.5",
+      "subnet_id": "subnet-028a1a7bc310e4f7f"
     },
     "pool-02": {
       "name": "pool-02",
@@ -64,8 +81,8 @@
         "k8s.ovn.org/egress-assignable": "",
         "this": "that"
       },
-      "openshift_version": "4.18.12",
-      "subnet_id": "subnet-0c25cbcd3d48dc61b"
+      "openshift_version": "4.19.5",
+      "subnet_id": "subnet-07e510efab5aa67c4"
     },
     "pool-03": {
       "name": "pool-03",
@@ -84,8 +101,9 @@
         "min_replicas": 1,
         "max_replicas": 1
       },
-      "openshift_version": "4.18.12",
-      "subnet_id": "subnet-0da2f84176f37cca9"
+      "openshift_version": "4.19.5",
+      "subnet_id": "subnet-0252accab1d729376"
     }
   }
+
 }

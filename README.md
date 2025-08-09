@@ -1,4 +1,4 @@
-export RHCS_TOKEN="token..."
+export TF_VAR_RHCS_TOKEN="...."
 
 terraform plan -var-file="cluster_variables.json"
 
