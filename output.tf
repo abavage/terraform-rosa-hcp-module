@@ -30,7 +30,7 @@ output "cluster_domain" {
 }
 
 output "cluster_current_version" {
- value       = module.rosa_cluster_hcp.cluster_current_version
+  value       = module.rosa_cluster_hcp.cluster_current_version
   description = "The currently running version of OpenShift on the cluster."
 }
 
@@ -41,8 +41,8 @@ output "cluster_state" {
 
 output "zlogin_details" {
   value = {
-    api_url =  module.rosa_cluster_hcp.cluster_api_url
-    admin_passwd = nonsensitive(random_string.random.result)
+    api_url         = module.rosa_cluster_hcp.cluster_api_url
+    admin_passwd    = nonsensitive(random_string.random.result)
     admin_useraname = module.rosa_cluster_hcp.cluster_admin_username
   }
 }

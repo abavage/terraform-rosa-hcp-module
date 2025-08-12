@@ -8,9 +8,9 @@ terraform {
 
 module "account_iam_resources" {
   source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/account-iam-resources"
-  
-  account_role_prefix  = var.cluster_name
-  path                 = var.path
+
+  account_role_prefix = var.cluster_name
+  path                = var.path
 
 }
 
@@ -19,7 +19,7 @@ module "account_iam_resources" {
 ############################
 module "oidc_config_and_provider" {
   source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/oidc-config-and-provider"
- 
+
 }
 
 
@@ -28,11 +28,11 @@ module "oidc_config_and_provider" {
 ############################
 module "operator_roles" {
   source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/operator-roles"
-  
+
   operator_role_prefix = var.cluster_name
   oidc_endpoint_url    = module.oidc_config_and_provider.oidc_endpoint_url
   path                 = var.path
-  
+
 }
 
 ############################
@@ -41,27 +41,27 @@ module "operator_roles" {
 module "rosa_cluster_hcp" {
   source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/rosa-cluster-hcp"
 
-  cluster_name             = var.cluster_name
+  cluster_name = var.cluster_name
   #operator_role_prefix     = var.cluster_name
-  operator_role_prefix     = module.operator_roles.operator_role_prefix
-  openshift_version        = var.openshift_version
-  installer_role_arn       = module.account_iam_resources.account_roles_arn["HCP-ROSA-Installer"]
-  support_role_arn         = module.account_iam_resources.account_roles_arn["HCP-ROSA-Support"]
-  worker_role_arn          = module.account_iam_resources.account_roles_arn["HCP-ROSA-Worker"]
-  oidc_config_id           = module.oidc_config_and_provider.oidc_config_id
-  aws_subnet_ids           = local.rosa_aws_subnet_ids
-  machine_cidr             = var.machine_cidr
-  service_cidr             = var.service_cidr
-  pod_cidr                 = var.pod_cidr
-  host_prefix              = var.host_prefix
-  private                  = var.private
-  tags                     = local.tags
-  properties               = var.properties
-  etcd_encryption          = var.etcd_encryption
+  operator_role_prefix = module.operator_roles.operator_role_prefix
+  openshift_version    = var.openshift_version
+  installer_role_arn   = module.account_iam_resources.account_roles_arn["HCP-ROSA-Installer"]
+  support_role_arn     = module.account_iam_resources.account_roles_arn["HCP-ROSA-Support"]
+  worker_role_arn      = module.account_iam_resources.account_roles_arn["HCP-ROSA-Worker"]
+  oidc_config_id       = module.oidc_config_and_provider.oidc_config_id
+  aws_subnet_ids       = local.rosa_aws_subnet_ids
+  machine_cidr         = var.machine_cidr
+  service_cidr         = var.service_cidr
+  pod_cidr             = var.pod_cidr
+  host_prefix          = var.host_prefix
+  private              = var.private
+  tags                 = local.tags
+  properties           = var.properties
+  etcd_encryption      = var.etcd_encryption
   #etcd_kms_key_arn         = var.etcd_kms_key_arn
-  etcd_kms_key_arn         = resource.aws_kms_key.etcd.arn 
+  etcd_kms_key_arn = resource.aws_kms_key.etcd.arn
   #kms_key_arn              = var.kms_key_arn
-  kms_key_arn              = resource.aws_kms_key.ebs.arn 
+  kms_key_arn              = resource.aws_kms_key.ebs.arn
   aws_billing_account_id   = "604574367752"
   ec2_metadata_http_tokens = var.ec2_metadata_http_tokens
 
@@ -126,7 +126,7 @@ module "rosa_cluster_hcp" {
 ######################################
 
 module "rhcs_hcp_machine_pool" {
-  source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/machine-pool"
+  source   = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/machine-pool"
   for_each = var.machine_pools
 
   cluster_id                   = module.rosa_cluster_hcp.cluster_id
@@ -201,9 +201,9 @@ resource "aws_ec2_tag" "tag_private_subnets" {
 
 
 resource "random_string" "random" {
-  length = 20
-  special = false
-  numeric = true
+  length      = 20
+  special     = false
+  numeric     = true
   min_numeric = 4
   min_lower   = 6
   min_upper   = 6

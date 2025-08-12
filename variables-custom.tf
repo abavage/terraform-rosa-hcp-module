@@ -6,13 +6,13 @@ variable "RHCS_TOKEN" {
 variable "private_aws_subnet_ids" {
   type        = list(string)
   nullable    = false
-  description = "list of the private subnets" 
+  description = "list of the private subnets"
 }
 
 variable "public_aws_subnet_ids" {
   type        = list(string)
   nullable    = false
-  description = "list of the public subnets" 
+  description = "list of the public subnets"
 }
 
 variable "aws_private_subnet_cidrs" {
@@ -40,10 +40,10 @@ variable "default_workers_labels" {
 }
 
 variable "gitops_bootstrap" {
-  type = map(string)
+  type        = map(string)
   description = "Variables passed into the gitops helm charts"
   default = {
-    gitops_startingcsv = "openshift-gitops-operator.v1.17.0",
+    gitops_startingcsv  = "openshift-gitops-operator.v1.17.0",
     logging_startingcsv = "someversion"
   }
 }

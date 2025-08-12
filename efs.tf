@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "rosa_efs_csi_policy" {
-  
+
   name        = "${var.cluster_name}-rosa-efs-csi"
   path        = "/"
   description = "AWS EFS CSI Driver Policy"
@@ -88,7 +88,7 @@ resource "aws_iam_role_policy_attachment" "rosa_efs_csi_role_iam_attachment" {
 }
 
 resource "aws_efs_file_system" "rosa_efs" {
-  encrypted  = true
+  encrypted = true
   tags = {
     Name = "${var.cluster_name}-rosa-efs"
   }

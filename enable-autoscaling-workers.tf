@@ -46,7 +46,7 @@ rosa edit machinepool -c "${var.cluster_name}" --enable-autoscaling --min-replic
 
 EOT
   }
-  
+
   depends_on = [
     module.rosa_cluster_hcp
   ]
