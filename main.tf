@@ -1,3 +1,7 @@
+terraform {
+  backend "s3" {}
+}
+
 ##############################################################
 # Account roles includes IAM roles and IAM policies
 ##############################################################
@@ -89,10 +93,10 @@ module "rosa_cluster_hcp" {
   ########
   # Proxy 
   ########
-  http_proxy              = local.http_proxy
-  https_proxy             = local.https_proxy
-  no_proxy                = local.no_proxy
-  additional_trust_bundle = var.additional_trust_bundle
+  #http_proxy              = local.http_proxy
+  #https_proxy             = local.https_proxy
+  #no_proxy                = local.no_proxy
+  #additional_trust_bundle = var.additional_trust_bundle
 
   #############
   # Autoscaler 

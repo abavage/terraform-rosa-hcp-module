@@ -38,3 +38,12 @@ variable "default_workers_labels" {
   default     = null
   description = "Additional node lables to add to the workers machinepools"
 }
+
+variable "gitops_bootstrap" {
+  type = map(string)
+  description = "Variables passed into the gitops helm charts"
+  default = {
+    gitops_startingcsv = "openshift-gitops-operator.v1.17.0",
+    logging_startingcsv = "someversion"
+  }
+}

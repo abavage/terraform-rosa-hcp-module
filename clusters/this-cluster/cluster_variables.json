@@ -3,12 +3,12 @@
   "openshift_version": "4.19.5",
   "aws_region": "ap-southeast-2",
   "private_aws_subnet_ids": [
-    "subnet-028a1a7bc310e4f7f",
-    "subnet-07e510efab5aa67c4",
-    "subnet-0252accab1d729376"
+    "subnet-0980425de9f9065ac",
+    "subnet-051b2711d035d8205",
+    "subnet-094df7b1bb9648daa"
   ],
   "public_aws_subnet_ids": [
-    "subnet-0bd20e56bdc05c872"
+    "subnet-0946aa3fe7774dd6a"
   ],
 
   "aws_private_subnet_cidrs": [
@@ -22,12 +22,14 @@
     "ap-southeast-2b",
     "ap-southeast-2c"
   ],
-  "replicas": 3,
-  "compute_machine_type": "m5.xlarge",
-
+  
   "private": false,
 
   "etcd_encryption": true,
+
+  "replicas": 3,
+  "compute_machine_type": "m5.xlarge",
+
 
   "default_workers_min_replicas": 1,
   "default_workers_max_replicas": 3,
@@ -62,7 +64,7 @@
         "max_replicas": 1
       },
       "openshift_version": "4.19.5",
-      "subnet_id": "subnet-028a1a7bc310e4f7f"
+      "subnet_id": "subnet-0980425de9f9065ac"
     },
     "pool-02": {
       "name": "pool-02",
@@ -82,7 +84,7 @@
         "this": "that"
       },
       "openshift_version": "4.19.5",
-      "subnet_id": "subnet-07e510efab5aa67c4"
+      "subnet_id": "subnet-051b2711d035d8205"
     },
     "pool-03": {
       "name": "pool-03",
@@ -102,7 +104,7 @@
         "max_replicas": 1
       },
       "openshift_version": "4.19.5",
-      "subnet_id": "subnet-0252accab1d729376"
+      "subnet_id": "subnet-094df7b1bb9648daa"
     }
   }
 

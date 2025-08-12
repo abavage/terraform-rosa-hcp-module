@@ -8,7 +8,7 @@ locals {
 
   tags = {
     cluster_name = var.cluster_name
-    region       = "ap-southeast-2"
+    region       = var.aws_region
     this         = "that"
     one          = "two"
     three        = "four"
@@ -19,9 +19,10 @@ locals {
     var.private_aws_subnet_ids
   )
 
-  http_proxy  = ""
-  https_proxy = ""
-  no_proxy    = ""
+  http_proxy  = "http://10.0.2.21:3128"
+  https_proxy = "http://10.0.2.21:3128"
+  no_proxy    = "10.0.0.0/16"
+
 
   cloudwatch_siem_role_iam_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-seim-logging-cloudwatch-role"
 
