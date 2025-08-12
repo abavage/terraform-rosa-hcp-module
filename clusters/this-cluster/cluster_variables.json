@@ -65,47 +65,6 @@
       },
       "openshift_version": "4.19.5",
       "subnet_id": "subnet-0980425de9f9065ac"
-    },
-    "pool-02": {
-      "name": "pool-02",
-      "aws_node_pool": {
-        "instance_type": "m5.xlarge",
-        "tags": {},
-        "additional_security_group_ids": null
-      },
-      "autoscaling": {
-        "enabled": true,
-        "min_replicas": 1,
-        "max_replicas": 1
-      },
-      "auto_repair": true,
-      "labels": {
-        "k8s.ovn.org/egress-assignable": "",
-        "this": "that"
-      },
-      "openshift_version": "4.19.5",
-      "subnet_id": "subnet-051b2711d035d8205"
-    },
-    "pool-03": {
-      "name": "pool-03",
-      "aws_node_pool": {
-        "instance_type": "m5.xlarge",
-        "tags": {},
-        "additional_security_group_ids": null
-      },
-      "auto_repair": true,
-      "labels": {
-        "k8s.ovn.org/egress-assignable": "",
-        "this": "that"
-      },
-      "autoscaling": {
-        "enabled": true,
-        "min_replicas": 1,
-        "max_replicas": 1
-      },
-      "openshift_version": "4.19.5",
-      "subnet_id": "subnet-094df7b1bb9648daa"
     }
   }
-
 }
