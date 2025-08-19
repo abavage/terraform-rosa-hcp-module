@@ -1,4 +1,5 @@
 export TF_VAR_RHCS_TOKEN="...."
+
 export RHCS_TOKEN="...."
 
 terraform init -backend-config="clusters/<cluster_name>/backend.tfvars
