@@ -6,8 +6,9 @@ resource "shell_script" "gitops_bootstrap" {
       {
         admin_username     = module.rosa_cluster_hcp.cluster_admin_username
         api_url            = module.rosa_cluster_hcp.cluster_api_url
-        admin_passwd       = nonsensitive(random_string.random.result)
+        admin_passwd       = random_string.random.result
         gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
+        clusterGitPath     = var.clusterGitPath
         enable             = true
     })
     delete = templatefile(
@@ -15,8 +16,9 @@ resource "shell_script" "gitops_bootstrap" {
       {
         admin_username     = module.rosa_cluster_hcp.cluster_admin_username
         api_url            = module.rosa_cluster_hcp.cluster_api_url
-        admin_passwd       = nonsensitive(random_string.random.result)
+        admin_passwd       = random_string.random.result
         gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
+        clusterGitPath     = var.clusterGitPath
         enable             = false
 
     })

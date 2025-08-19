@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+exec >/tmp/bootstrap.log 2>&1
+
 #if [ $# -ne 3 ]; then
 #    echo "Usage: $0 <api_url> <admin_username> <admin_password>"
 #    echo "Provided argument(s) - $#"
@@ -43,10 +45,16 @@ if [ "${enable}" == true ]; then
   fi
 
   log "Adding gitops operator"
+
+  if [ -d /tmp/charts ]; then
+    echo "removing old charts"
+    rm -rf /tmp/charts
+  fi
+
   git clone https://github.com/abavage/helm-gitops.git /tmp/charts
   #helm template /tmp/charts/gitops-operator --set csv="${gitops_startingcsv}" > /tmp/gitops-operator.yaml
-  helm upgrade --install gitops-operator /tmp/charts/gitops-operator-bootstrap --set csv="${gitops_startingcsv}" --set clusterGitPath="nonprod/this-cluster/infrastructure.yaml" -n openshift 
-  rm -rf /tmp/charts
+  helm upgrade --install gitops-operator /tmp/charts/gitops-operator-bootstrap --set csv="${gitops_startingcsv}" --set clusterGitPath="${clusterGitPath}" -n openshift 
+  #rm -rf /tmp/charts
 
   log "GitOps installation and patch completed successfully."
 

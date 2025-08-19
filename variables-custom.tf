@@ -47,3 +47,9 @@ variable "gitops_bootstrap" {
     logging_startingcsv = "someversion"
   }
 }
+
+variable "clusterGitPath" {
+  type = string
+  default = ""
+  description = "The path to where the cluster will source it helm variables"
+}
