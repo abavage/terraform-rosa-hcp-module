@@ -57,3 +57,39 @@ resource "aws_iam_role_policy_attachment" "ecr_secret_operator_attachment" {
     module.rosa_cluster_hcp
   ]
 }
+
+## don't need this unless we want an ecr registry
+#resource "aws_ecr_repository" "my_ecr_repo" {
+#  name = "my-application-repository"
+#}
+
+#resource "aws_ecr_repository_policy" "my_repo_policy" {
+#  repository = aws_ecr_repository.my_ecr_repo.name
+
+#  policy = jsonencode({
+#    Version = "2012-10-17"
+#    Statement = [
+#      {
+#        Sid = "AllowPushPull"
+#        Effect = "Allow"
+#        Principal = {
+#          AWS = [
+#            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${aws_iam_role.ecr_secret_operator_role.name}"
+#          ]
+#        }
+#        Action = [
+#          "ecr:BatchGetImage",
+#          "ecr:BatchCheckLayerAvailability",
+#          "ecr:CompleteLayerUpload",
+#          "ecr:GetDownloadUrlForLayer",
+#          "ecr:InitiateLayerUpload",
+#          "ecr:PutImage",
+#          "ecr:UploadLayerPart"
+#        ]
+#      }
+#    ]
+#  })
+#  depends_on = [
+#    module.rosa_cluster_hcp
+#  ]
+#}
