@@ -2,7 +2,7 @@ export TF_VAR_RHCS_TOKEN="...."
 
 export RHCS_TOKEN="...."
 
-Optional if using a statebucket and not the local filesystem
+Optional if using a statebucket and not the local filesystem.  
 terraform init -backend-config="clusters/<cluster_name>/backend.tfvars
 
 terraform plan -var-file="clusters/<cluster_name>/cluster_variables.json"
