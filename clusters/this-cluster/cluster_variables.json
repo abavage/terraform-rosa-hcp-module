@@ -1,14 +1,14 @@
 {
   "cluster_name": "this-cluster",
-  "openshift_version": "4.19.5",
+  "openshift_version": "4.19.6",
   "aws_region": "ap-southeast-2",
   "private_aws_subnet_ids": [
-    "subnet-01eb0d593cef14f38",
-    "subnet-008668caba83402ac",
-    "subnet-045bd03aca2f3d7dc"
+    "subnet-03a5190453ec8e3ea",
+    "subnet-0a86842729870e737",
+    "subnet-01365567c5b2f2f89"
   ],
   "public_aws_subnet_ids": [
-    "subnet-0fbc15c3a0a86eabf"
+    ""
   ],
 
   "aws_private_subnet_cidrs": [
@@ -23,7 +23,7 @@
     "ap-southeast-2c"
   ],
   
-  "private": false,
+  "private": true,
 
   
   "clusterGitPath": "nonprod/this-cluster/infrastructure.yaml",
@@ -66,8 +66,8 @@
         "min_replicas": 1,
         "max_replicas": 1
       },
-      "openshift_version": "4.19.5",
-      "subnet_id": "subnet-045bd03aca2f3d7dc"
+      "openshift_version": "4.19.6",
+      "subnet_id": "subnet-01365567c5b2f2f89"
     }
   }
 }

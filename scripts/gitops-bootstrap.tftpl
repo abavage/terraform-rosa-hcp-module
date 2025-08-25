@@ -46,14 +46,14 @@ if [ "${enable}" == true ]; then
 
   log "Adding gitops operator"
 
-  if [ -d /tmp/charts ]; then
+  if [ -d /tmp/scratch ]; then
     echo "removing old charts"
-    rm -rf /tmp/charts
+    rm -rf /tmp/scratch
   fi
 
-  git clone https://github.com/abavage/helm-gitops.git /tmp/
+  git clone https://github.com/abavage/helm-gitops.git /tmp/scratch
   #helm template /tmp/charts/gitops-operator --set csv="${gitops_startingcsv}" > /tmp/gitops-operator.yaml
-  helm upgrade --install gitops-operator /tmp/charts/gitops-operator-bootstrap --set csv="${gitops_startingcsv}" --set clusterGitPath="${clusterGitPath}" -n openshift 
+  helm upgrade --install gitops-operator /tmp/scratch/charts/gitops-operator-bootstrap --set csv="${gitops_startingcsv}" --set clusterGitPath="${clusterGitPath}" -n openshift 
   #rm -rf /tmp/charts
 
   log "GitOps installation and patch completed successfully."

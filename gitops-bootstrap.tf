@@ -26,9 +26,9 @@ resource "shell_script" "gitops_bootstrap" {
   environment           = {}
   sensitive_environment = {}
 
-  triggers = {
-    always_run = timestamp()
-  }
+  #triggers = {
+  #  always_run = timestamp()
+  #}
 
   depends_on = [
     module.rosa_cluster_hcp

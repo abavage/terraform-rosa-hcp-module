@@ -135,7 +135,7 @@ variable "properties" {
   description = "User defined properties."
   type        = map(string)
   default = {
-    zero_egress = false
+    zero_egress = true
   }
 }
 
