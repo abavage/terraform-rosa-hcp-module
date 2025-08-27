@@ -55,7 +55,7 @@ module "rosa_cluster_hcp" {
   properties           = var.properties
   etcd_encryption      = var.etcd_encryption
   #etcd_kms_key_arn         = var.etcd_kms_key_arn
-  etcd_kms_key_arn = resource.aws_kms_key.etcd.arn
+  etcd_kms_key_arn     = resource.aws_kms_key.etcd.arn
   #kms_key_arn              = var.kms_key_arn
   kms_key_arn              = resource.aws_kms_key.ebs.arn
   aws_billing_account_id   = "604574367752"
@@ -145,14 +145,14 @@ module "rhcs_hcp_machine_pool" {
 # Multiple Identity Providers Generic block
 ###########################################
 
-#module "rhcs_identity_provider" {
-#  source   = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/idp"
-#  for_each = var.identity_providers
+module "rhcs_identity_provider" {
+  source   = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/idp"
+  for_each = local.identity_providers
 
-#  cluster_id                            = module.rosa_cluster_hcp.cluster_id
-#  name                                  = each.value.name
-#  idp_type                              = each.value.idp_type
-#  mapping_method                        = try(each.value.mapping_method, null)
+  cluster_id                            = module.rosa_cluster_hcp.cluster_id
+  name                                  = each.value.name
+  idp_type                              = each.value.idp_type
+  mapping_method                        = try(each.value.mapping_method, null)
 #  github_idp_client_id                  = try(each.value.github_idp_client_id, null)
 #  github_idp_client_secret              = try(each.value.github_idp_client_secret, null)
 #  github_idp_ca                         = try(each.value.github_idp_ca, null)
@@ -166,7 +166,8 @@ module "rhcs_hcp_machine_pool" {
 #  google_idp_client_id                  = try(each.value.google_idp_client_id, null)
 #  google_idp_client_secret              = try(each.value.google_idp_client_secret, null)
 #  google_idp_hosted_domain              = try(each.value.google_idp_hosted_domain, null)
-#  htpasswd_idp_users                    = try(jsondecode(each.value.htpasswd_idp_users), null)
+# htpasswd_idp_users                    = try(jsondecode(each.value.htpasswd_idp_users), null)
+   htpasswd_idp_users                    = try(each.value.htpasswd_idp_users, null)
 #  ldap_idp_bind_dn                      = try(each.value.ldap_idp_bind_dn, null)
 #  ldap_idp_bind_password                = try(each.value.ldap_idp_bind_password, null)
 #  ldap_idp_ca                           = try(each.value.ldap_idp_ca, null)
@@ -176,23 +177,33 @@ module "rhcs_hcp_machine_pool" {
 #  ldap_idp_ids                          = try(jsondecode(each.value.ldap_idp_ids), null)
 #  ldap_idp_names                        = try(jsondecode(each.value.ldap_idp_names), null)
 #  ldap_idp_preferred_usernames          = try(jsondecode(each.value.ldap_idp_preferred_usernames), null)
-#  openid_idp_ca                         = try(each.value.openid_idp_ca, null)
-#  openid_idp_claims_email               = try(jsondecode(each.value.openid_idp_claims_email), null)
-#  openid_idp_claims_groups              = try(jsondecode(each.value.openid_idp_claims_groups), null)
-#  openid_idp_claims_name                = try(jsondecode(each.value.openid_idp_claims_name), null)
-#  openid_idp_claims_preferred_username  = try(jsondecode(each.value.openid_idp_claims_preferred_username), null)
-#  openid_idp_client_id                  = try(each.value.openid_idp_client_id, null)
-#  openid_idp_client_secret              = try(each.value.openid_idp_client_secret, null)
-#  openid_idp_extra_scopes               = try(jsondecode(each.value.openid_idp_extra_scopes), null)
-#  openid_idp_extra_authorize_parameters = try(jsondecode(each.value.openid_idp_extra_authorize_parameters), null)
-#  openid_idp_issuer                     = try(each.value.openid_idp_issuer, null)
-#}
+  openid_idp_ca                         = try(each.value.openid_idp_ca, null)
+  openid_idp_claims_email               = try(each.value.openid_idp_claims_email, null)
+  openid_idp_claims_groups              = try(each.value.openid_idp_claims_groups, null)
+  openid_idp_claims_name                = try(each.value.openid_idp_claims_name, null)
+  openid_idp_claims_preferred_username  = try(each.value.openid_idp_claims_preferred_username, null)
+  openid_idp_client_id                  = try(each.value.openid_idp_client_id, null)
+  openid_idp_client_secret              = try(each.value.openid_idp_client_secret, null)
+  openid_idp_extra_scopes               = try(jsondecode(each.value.openid_idp_extra_scopes), null)
+  openid_idp_extra_authorize_parameters = try(jsondecode(each.value.openid_idp_extra_authorize_parameters), null)
+  openid_idp_issuer                     = try(each.value.openid_idp_issuer, null)
+}
 
 resource "aws_ec2_tag" "tag_private_subnets" {
   count       = length(var.private_aws_subnet_ids)
   resource_id = var.private_aws_subnet_ids[count.index]
   key         = "kubernetes.io/role/internal-elb"
   value       = ""
+}
+
+# add this as a private cluster still has the check enabled for this policy added to the role.
+# The managed policy is correct.
+resource "aws_iam_role_policy_attachment" "rosa_ecr_role_iam_attachment" {
+  role       = "${var.cluster_name}-HCP-ROSA-Worker-Role"
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  depends_on = [
+    module.account_iam_resources
+  ]
 }
 
 

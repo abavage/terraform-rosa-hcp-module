@@ -135,7 +135,7 @@ variable "properties" {
   description = "User defined properties."
   type        = map(string)
   default = {
-    zero_egress = true
+    zero_egress = false
   }
 }
 
@@ -351,4 +351,84 @@ variable "ignore_machine_pools_deletion_error" {
   type        = bool
   default     = false
   description = "Ignore machine pool deletion error. Assists when cluster resource is managed within the same file for the destroy use case"
+}
+
+
+##############################################################
+# Htpasswd IDP
+##############################################################
+
+variable "htpasswd_idp_users" {
+  description = "A list of htpasswd user credentials (required). Valid only to Htpasswd Identity Provider (idp_type=htpasswd)"
+  sensitive   = true
+  type = list(object({
+    username = string
+    password = string
+  }))
+  default     = null
+}
+
+##############################################################
+# OpenID IDP
+##############################################################
+
+variable "openid_idp_ca" {
+  type        = string
+  default     = null
+  description = "Trusted certificate authority bundle (optional). Valid only to OpenID Identity Provider (idp_type=openid)"
+}
+
+variable "openid_idp_claims_email" {
+  type        = list(string)
+  default     = null
+  description = "List of claims to use as the email address (optional). Valid only to OpenID Identity Provider (idp_type=openid)"
+}
+
+variable "openid_idp_claims_groups" {
+  type        = list(string)
+  default     = null
+  description = "List of claims to use as the groups names (optional). Valid only to OpenID Identity Provider (idp_type=openid)"
+}
+
+variable "openid_idp_claims_name" {
+  type        = list(string)
+  default     = null
+  description = "List of claims to use as the display name (optional). Valid only to OpenID Identity Provider (idp_type=openid)"
+}
+
+variable "openid_idp_claims_preferred_username" {
+  type        = list(string)
+  default     = null
+  description = "List of claims to use as the preferred username when provisioning a user (optional). Valid only to OpenID Identity Provider (idp_type=openid)"
+}
+
+variable "openid_idp_client_id" {
+  type        = string
+  default     = null
+  description = "Client ID from the registered application (required). Valid only to OpenID Identity Provider (idp_type=openid)"
+}
+
+variable "openid_idp_client_secret" {
+  type        = string
+  default     = null
+  description = "Client Secret from the registered application (required). Valid only to OpenID Identity Provider (idp_type=openid)"
+  sensitive   = true
+}
+
+variable "openid_idp_extra_scopes" {
+  type        = list(string)
+  default     = null
+  description = "List of scopes to request, in addition to the 'openid' scope, during the authorization token request (optional). Valid only to OpenID Identity Provider (idp_type=openid)"
+}
+
+variable "openid_idp_extra_authorize_parameters" {
+  type        = map(string)
+  default     = null
+  description = "Extra authorization parameters for the OpenID Identity Provider (optional). Valid only to OpenID Identity Provider (idp_type=openid)"
+}
+
+variable "openid_idp_issuer" {
+  type        = string
+  default     = null
+  description = "The URL that the OpenID Provider asserts as the Issuer Identifier. It must use the https scheme with no URL query parameters or fragment (required). Valid only to OpenID Identity Provider (idp_type=openid)"
 }
