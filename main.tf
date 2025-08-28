@@ -110,11 +110,6 @@ module "rosa_cluster_hcp" {
     var.default_ingress_listening_method) : (
     var.private ? "internal" : "external"
   )
-  #depends_on = [
-  #  module.account_iam_resources,
-  #  module.oidc_config_and_provider,
-  #  module.operator_roles
-  #]  
 }
 
 ######################################
@@ -167,7 +162,7 @@ module "rhcs_identity_provider" {
 #  google_idp_client_secret              = try(each.value.google_idp_client_secret, null)
 #  google_idp_hosted_domain              = try(each.value.google_idp_hosted_domain, null)
 # htpasswd_idp_users                    = try(jsondecode(each.value.htpasswd_idp_users), null)
-   htpasswd_idp_users                    = try(each.value.htpasswd_idp_users, null)
+  htpasswd_idp_users                    = try(each.value.htpasswd_idp_users, null)
 #  ldap_idp_bind_dn                      = try(each.value.ldap_idp_bind_dn, null)
 #  ldap_idp_bind_password                = try(each.value.ldap_idp_bind_password, null)
 #  ldap_idp_ca                           = try(each.value.ldap_idp_ca, null)
@@ -187,6 +182,18 @@ module "rhcs_identity_provider" {
   openid_idp_extra_scopes               = try(jsondecode(each.value.openid_idp_extra_scopes), null)
   openid_idp_extra_authorize_parameters = try(jsondecode(each.value.openid_idp_extra_authorize_parameters), null)
   openid_idp_issuer                     = try(each.value.openid_idp_issuer, null)
+}
+
+######################################
+# Multiple Kubelet Configs block
+######################################
+module "rhcs_hcp_kubelet_configs" {
+  source   = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/kubelet-configs"
+  for_each = local.kubelet_configs
+
+  cluster_id     = module.rosa_cluster_hcp.cluster_id
+  name           = each.value.name
+  pod_pids_limit = each.value.pod_pids_limit
 }
 
 resource "aws_ec2_tag" "tag_private_subnets" {
@@ -215,15 +222,3 @@ resource "random_string" "random" {
   min_lower   = 6
   min_upper   = 6
 }
-
-######################################
-# Multiple Kubelet Configs block
-######################################
-#module "rhcs_hcp_kubelet_configs" {
-#  source   = "./modules/kubelet-configs"
-#  for_each = var.kubelet_configs
-
-#  cluster_id     = module.rosa_cluster_hcp.cluster_id
-#  name           = each.value.name
-#  pod_pids_limit = each.value.pod_pids_limit
-#}

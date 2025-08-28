@@ -58,19 +58,13 @@ locals {
       openid_idp_issuer                    = "https://example.com"
     }
   }
+  
+  # default is 4096 in rosa.
+  kubelet_configs = {
+    kubelet_config = {
+      name = "custom-kubelet"
+      pod_pids_limit = 4096
+    }
+  }
 
 }
-
-  #  openid-idp = {
-  #    name                                 = "openid-idp"
-  #    idp_type                             = "openid"
-  #    openid_idp_client_id                 = "123456789"     # replace with valid <client-id>
-  #    openid_idp_client_secret             = "123456789" # replace with valid <client-secret>
-  #    openid_idp_ca                        = ""
-  #    openid_idp_issuer                    = "https://example.com"
-  #    openid_idp_claims_groups             = jsonencode(["group"])
-  #    openid_idp_claims_email              = jsonencode(["email"])
-  #    openid_idp_claims_preferred_username = jsonencode(["preferred_username"])
-  #    #openid_idp_claims_preferred_username = "[\"preferred_username\"]"
-  #    openid_idp_extra_scopes              = jsonencode(["email","profile"])
-  #  }
