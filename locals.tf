@@ -58,12 +58,12 @@ locals {
       openid_idp_issuer                    = "https://example.com"
     }
   }
-  
+
   # default is 4096 in rosa.
   kubelet_configs = {
     kubelet_config = {
       name = "custom-kubelet"
-      pod_pids_limit = 4096
+      pod_pids_limit = 8192
     }
   }
 
