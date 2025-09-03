@@ -5,7 +5,7 @@ output "cluster_id" {
 }
 
 output "cluster_admin_username" {
-  value       = module.rosa_cluster_hcp.cluster_admin_username
+  value       = nonsensitive(module.rosa_cluster_hcp.cluster_admin_username)
   description = "The username of the admin user."
 }
 
@@ -43,6 +43,6 @@ output "zlogin_details" {
   value = {
     api_url         = module.rosa_cluster_hcp.cluster_api_url
     admin_passwd    = nonsensitive(random_string.random.result)
-    admin_useraname = module.rosa_cluster_hcp.cluster_admin_username
+    admin_useraname = nonsensitive(module.rosa_cluster_hcp.cluster_admin_username)
   }
 }
