@@ -3,12 +3,12 @@
   "openshift_version": "4.19.6",
   "aws_region": "ap-southeast-2",
   "private_aws_subnet_ids": [
-    "subnet-0720d1e0d4376a70f",
-    "subnet-0d9b13caff2614292",
-    "subnet-04bddc31c638bd4ba"
+    "subnet-0ba07732ca68a9c68",
+    "subnet-0ac3f8c119a7e63ce",
+    "subnet-0c0eed5d3afe8fa2a"
   ],
   "public_aws_subnet_ids": [
-    "subnet-04ca681cc31011e51"
+    "subnet-07348d3aaa0867348"
   ],
 
   "aws_private_subnet_cidrs": [
@@ -65,7 +65,7 @@
         "max_replicas": 1
       },
       "openshift_version": "4.19.6",
-      "subnet_id": "subnet-04bddc31c638bd4ba",
+      "subnet_id": "subnet-0c0eed5d3afe8fa2a",
       "kubelet_configs": "custom-kubelet"
     }
   }
