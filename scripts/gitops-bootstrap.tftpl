@@ -1,50 +1,68 @@
 #!/bin/bash
-set -euo pipefail
 
-exec >/tmp/bootstrap.log 2>&1
+#exec > /tmp/logging.log 2>&1
 
-#if [ $# -ne 3 ]; then
-#    echo "Usage: $0 <api_url> <admin_username> <admin_password>"
-#    echo "Provided argument(s) - $#"
-#    exit 1
-#fi
+# --- Error Handling Configuration ---
+# Exit immediately if a command exits with a non-zero status.
+set -e
+# Ensures that ERR trap is inherited by shell functions
+set -E
+# --- Exit Functions ---
+# Function for a clean, successful exit
+good_exit() {
+  local message="$1"
+  echo "INFO: $message"
+  echo '{"status": "success", "message": "'"$message"'"}'
+  exit 0
+}
+# Function for failures
+bad_exit() {
+  local error_message="$1"
+  echo "ERROR: $error_message" >&2
+  echo '{"status": "failure", "message": "'"$error_message"'"}'
+  exit 1
+}
+# --- Trap Handler for Errors ---
+handle_error() {
+  local last_command="$BASH_COMMAND"
+  local line_number="$BASH_LINENO[0]"
+  bad_exit "Script failed at line $line_number executing command: '$last_command'"
+}
+# Set the trap: When an error occurs, call handle_error
+trap 'handle_error' ERR
 
-#api_url=$1
-#admin_username=$2
-#admin_password=$3
+# --- Script Logic Starts Here ---
+
+echo "#########################################"
+echo " Script Start gitops-operator-bootstrap"
+echo "Current Date: $(date)"
+echo "#########################################"
 
 # Configurable login retry settings
 MAX_RETRIES=10
 SLEEP_BETWEEN_RETRIES=30
 
-log() {
-    echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*"
-}
 
-# Add a test to check for readyz on the api
-
+# Conditional logic for enabling or disabling gitops-operator-bootstrap
 if [ "${enable}" == true ]; then
-
-   log "Logging in OpenShift API - ${api_url}..."
+   echo "Logging in OpenShift API - ${api_url}..."
      attempt=1
      while (( attempt <= MAX_RETRIES )); do
        if login_output=$(oc login "${api_url}" --username="${admin_username}" --password="${admin_passwd}" 2>&1); then
-          log "Login successful."
+       #if login_output=$(false); then
+          echo "Login successful."
           break
        else
-         log "Login failed (attempt $attempt/$MAX_RETRIES). Retrying in $SLEEP_BETWEEN_RETRIES seconds..."
-         echo "$login_output"
+         echo "Login failed (attempt $attempt/$MAX_RETRIES). Retrying in $SLEEP_BETWEEN_RETRIES seconds..."
          (( attempt++ ))
          sleep "$SLEEP_BETWEEN_RETRIES"
        fi
      done
-
+   
   if (( attempt > MAX_RETRIES )); then
-    log "Failed to log in after $MAX_RETRIES attempts."
+    bad_exit "Failed to log in after $MAX_RETRIES attempts."
     exit 1
   fi
-
-  log "Adding gitops operator"
 
   if [ -d /tmp/scratch ]; then
     echo "removing old charts"
@@ -52,12 +70,18 @@ if [ "${enable}" == true ]; then
   fi
 
   git clone https://github.com/abavage/helm-gitops.git /tmp/scratch
-  #helm template /tmp/charts/gitops-operator --set csv="${gitops_startingcsv}" > /tmp/gitops-operator.yaml
-  helm upgrade --install gitops-operator /tmp/scratch/charts/gitops-operator-bootstrap --set csv="${gitops_startingcsv}" --set clusterGitPath="${clusterGitPath}" -n openshift 
-  #rm -rf /tmp/charts
+  #helm template /tmp/scratch/charts/gitops-operator-bootstrap --set csv="${gitops_startingcsv}" --set clusterGitPath="${clusterGitPath}" > /tmp/gitops-operator.yaml
+  helm upgrade --install gitops-operator-bootstrap /tmp/scratch/charts/gitops-operator-bootstrap --set csv="${gitops_startingcsv}" --set clusterGitPath="${clusterGitPath}" -n openshift 
 
-  log "GitOps installation and patch completed successfully."
+
+  HELM=$(helm list -n openshift --no-headers | awk '{print $8}')
+  if [[ $HELM != deployed ]]; then
+    bad_exit "Failed to install the gitops-operator-bootstrap chart"
+  else
+    good_exit "Helm install of the gitops-operator-bootstrap chart was successful."
+  fi
 
 else
-  echo "do nothing - end"
+  echo "disabled"
+  good_exit "disabled this"
 fi
