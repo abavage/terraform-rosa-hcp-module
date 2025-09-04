@@ -134,6 +134,10 @@ module "rhcs_hcp_machine_pool" {
   subnet_id                    = each.value.subnet_id
   kubelet_configs              = try(each.value.kubelet_configs, null)
   ignore_deletion_error        = try(each.value.ignore_deletion_error, var.ignore_machine_pools_deletion_error)
+
+  depends_on = [
+    module.rhcs_hcp_kubelet_configs
+  ]
 }
 
 ###########################################
