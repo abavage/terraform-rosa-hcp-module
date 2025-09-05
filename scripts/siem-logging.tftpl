@@ -48,7 +48,6 @@ if [[ "${enable}" == true ]]; then
   rosa edit cluster -c "${cluster}" --audit-log-arn "${siem_role_arn}" --yes --debug
   good_exit "SIEM logging enabled successfully for cluster '${cluster}'."
 else
-  echo "Disabling SIEM logging for cluster '${cluster}'..."
-  rosa edit cluster -c "${cluster}" --audit-log-arn "" --yes --debug
-  good_exit "SIEM logging disabled successfully for cluster '${cluster}'."
+  echo "Nothing to do here '${cluster}' is being deleted"
+  good_exit "Nothing to do here '${cluster}' is being deleted"
 fi

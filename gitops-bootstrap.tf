@@ -9,6 +9,7 @@ resource "shell_script" "gitops_bootstrap" {
         admin_passwd       = random_string.random.result
         gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
         clusterGitPath     = var.clusterGitPath
+        ebsKmsKeyId        = resource.aws_kms_key.ebs.arn
         enable             = true
     })
     delete = templatefile(
@@ -19,6 +20,7 @@ resource "shell_script" "gitops_bootstrap" {
         admin_passwd       = random_string.random.result
         gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
         clusterGitPath     = var.clusterGitPath
+        ebsKmsKeyId        = resource.aws_kms_key.ebs.arn
         enable             = false
 
     })
@@ -26,9 +28,9 @@ resource "shell_script" "gitops_bootstrap" {
   environment           = {}
   sensitive_environment = {}
 
-  #triggers = {
-  #  always_run = timestamp()
-  #}
+  triggers = {
+    always_run = timestamp()
+  }
 
   depends_on = [
     module.rosa_cluster_hcp
