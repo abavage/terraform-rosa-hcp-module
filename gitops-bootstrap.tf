@@ -10,6 +10,7 @@ resource "shell_script" "gitops_bootstrap" {
         gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
         clusterGitPath     = var.clusterGitPath
         ebsKmsKeyId        = resource.aws_kms_key.ebs.arn
+        efsFileSystemId    = data.aws_efs_file_system.fsid.id
         enable             = true
     })
     delete = templatefile(
@@ -21,6 +22,7 @@ resource "shell_script" "gitops_bootstrap" {
         gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
         clusterGitPath     = var.clusterGitPath
         ebsKmsKeyId        = resource.aws_kms_key.ebs.arn
+        efsFileSystemId    = data.aws_efs_file_system.fsid.id
         enable             = false
 
     })

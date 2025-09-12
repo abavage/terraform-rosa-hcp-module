@@ -1,14 +1,14 @@
 {
-  "cluster_name": "that-cluster",
+  "cluster_name": "one",
   "openshift_version": "4.19.6",
   "aws_region": "ap-southeast-2",
   "private_aws_subnet_ids": [
-    "subnet-02e87c89b969c06f0",
-    "subnet-01d1078638e317b2f",
-    "subnet-04823cf6901a5af44"
+    "subnet-0d4f3824b6d03f2a6",
+    "subnet-0d7c10b92f50cf685",
+    "subnet-0df8c402714786fa7"
   ],
   "public_aws_subnet_ids": [
-    "subnet-0b37c63d26c631478"
+    "subnet-06c0e480fc0cf7b78"
   ],
 
   "aws_private_subnet_cidrs": [
@@ -25,7 +25,7 @@
   
   "private": false,
   
-  "clusterGitPath": "nonprod/that-cluster/infrastructure.yaml",
+  "clusterGitPath": "nonprod/one/infrastructure.yaml",
 
   "etcd_encryption": true,
 
@@ -36,7 +36,8 @@
   "default_workers_max_replicas": 3,
 
   "default_workers_labels": {
-    "k8s.ovn.org/egress-assignable": ""
+    "k8s.ovn.org/egress-assignable": "",
+    "clustername": "one"
   },
 
   "machine_cidr": "10.0.0.0/16",
@@ -57,7 +58,7 @@
       "auto_repair": true,
       "labels": {
         "k8s.ovn.org/egress-assignable": "",
-        "this": "that"
+        "clustername": "one"
       },
       "autoscaling": {
         "enabled": true,
@@ -65,7 +66,7 @@
         "max_replicas": 1
       },
       "openshift_version": "4.19.6",
-      "subnet_id": "subnet-04823cf6901a5af44",
+      "subnet_id": "subnet-0df8c402714786fa7",
       "kubelet_configs": "custom-kubelet"
     }
   }

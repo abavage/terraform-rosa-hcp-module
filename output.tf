@@ -46,3 +46,7 @@ output "zlogin_details" {
     admin_useraname = nonsensitive(module.rosa_cluster_hcp.cluster_admin_username)
   }
 }
+
+output "efs_fileystsem_id" {
+  value = data.aws_efs_file_system.fsid.id
+}
