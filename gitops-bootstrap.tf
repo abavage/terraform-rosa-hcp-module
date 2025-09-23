@@ -8,7 +8,7 @@ resource "shell_script" "gitops_bootstrap" {
         api_url            = module.rosa_cluster_hcp.cluster_api_url
         admin_passwd       = random_string.random.result
         gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
-        clusterGitPath     = var.clusterGitPath
+        infrastructureGitPath     = var.infrastructureGitPath
         namespaceGitPath   = var.namespaceGitPath
         ebsKmsKeyId        = resource.aws_kms_key.ebs.arn
         efsFileSystemId    = data.aws_efs_file_system.fsid.id
@@ -21,7 +21,7 @@ resource "shell_script" "gitops_bootstrap" {
         api_url            = module.rosa_cluster_hcp.cluster_api_url
         admin_passwd       = random_string.random.result
         gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
-        clusterGitPath     = var.clusterGitPath
+        infrastructureGitPath     = var.infrastructureGitPath
         namespaceGitPath   = var.namespaceGitPath
         ebsKmsKeyId        = resource.aws_kms_key.ebs.arn
         efsFileSystemId    = data.aws_efs_file_system.fsid.id
