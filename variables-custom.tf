@@ -48,8 +48,14 @@ variable "gitops_bootstrap" {
   }
 }
 
-variable "clusterGitPath" {
+variable "infrastructureGitPath" {
   type = string
   default = ""
-  description = "The path to where the cluster will source it helm variables"
+  description = "The path to where the cluster will source it helm variables for infrastructure"
+}
+
+variable "namespaceGitPath" {
+  type = string
+  default = ""
+  description = "The path to where the cluster will source it helm variables for namespaces"
 }

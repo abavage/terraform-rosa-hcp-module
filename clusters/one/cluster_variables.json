@@ -3,12 +3,12 @@
   "openshift_version": "4.19.6",
   "aws_region": "ap-southeast-2",
   "private_aws_subnet_ids": [
-    "subnet-043443fadb421a0c0",
-    "subnet-0ea324a13ca6de179",
-    "subnet-0ce8ed6c917c052ce"
+    "subnet-0249ecb58016997ba",
+    "subnet-0878f41d52035999b",
+    "subnet-0cac04f30e8320fb4"
   ],
   "public_aws_subnet_ids": [
-    "subnet-043ea9e4c430575e2"
+    "subnet-0ed5eb030e185d0d3"
   ],
 
   "aws_private_subnet_cidrs": [
@@ -25,7 +25,8 @@
   
   "private": false,
   
-  "clusterGitPath": "nonprod/one/infrastructure.yaml",
+  "infrastructureGitPath": "nonprod/one/infrastructure.yaml",
+  "namespaceGitPath": "nonprod/one/namespaces.yaml",
 
   "etcd_encryption": true,
 
@@ -66,7 +67,7 @@
         "max_replicas": 1
       },
       "openshift_version": "4.19.6",
-      "subnet_id": "subnet-0ce8ed6c917c052ce",
+      "subnet_id": "subnet-0cac04f30e8320fb4",
       "kubelet_configs": "custom-kubelet"
     }
   }
