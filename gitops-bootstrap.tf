@@ -10,6 +10,7 @@ resource "shell_script" "gitops_bootstrap" {
         gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
         infrastructureGitPath     = var.infrastructureGitPath
         namespaceGitPath   = var.namespaceGitPath
+        cluster_name       = var.cluster_name
         ebsKmsKeyId        = resource.aws_kms_key.ebs.arn
         efsFileSystemId    = data.aws_efs_file_system.fsid.id
         enable             = true
@@ -22,6 +23,7 @@ resource "shell_script" "gitops_bootstrap" {
         admin_passwd       = random_string.random.result
         gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
         infrastructureGitPath     = var.infrastructureGitPath
+        cluster_name       = var.cluster_name
         namespaceGitPath   = var.namespaceGitPath
         ebsKmsKeyId        = resource.aws_kms_key.ebs.arn
         efsFileSystemId    = data.aws_efs_file_system.fsid.id

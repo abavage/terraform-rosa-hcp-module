@@ -26,7 +26,7 @@
   "private": false,
   
   "infrastructureGitPath": "nonprod/one/infrastructure.yaml",
-  "namespaceGitPath": "nonprod/one/namespaces.yaml",
+  "namespaceGitPath": "nonprod/one",
 
   "etcd_encryption": true,
 
