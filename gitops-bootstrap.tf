@@ -16,7 +16,7 @@ resource "shell_script" "gitops_bootstrap" {
         enable             = true
     })
     delete = templatefile(
-      "./scripts/doit.tftpl",
+      "./scripts/gitops-bootstrap.tftpl",
       {
         admin_username     = module.rosa_cluster_hcp.cluster_admin_username
         api_url            = module.rosa_cluster_hcp.cluster_api_url

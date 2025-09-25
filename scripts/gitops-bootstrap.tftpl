@@ -70,7 +70,6 @@ if [ "${enable}" == true ]; then
   fi
 
   git clone https://github.com/abavage/helm-gitops.git /tmp/scratch
-  #helm template /tmp/scratch/charts/gitops-operator-bootstrap --set csv="${gitops_startingcsv}" --set clusterGitPath="${clusterGitPath}" > /tmp/gitops-operator.yaml
   helm upgrade --install gitops-operator-bootstrap /tmp/scratch/charts/gitops-operator-bootstrap \
   --set csv="${gitops_startingcsv}" \
   --set infrastructureGitPath="${infrastructureGitPath}" \
