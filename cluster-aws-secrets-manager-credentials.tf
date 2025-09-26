@@ -19,22 +19,3 @@ resource "aws_secretsmanager_secret_version" "secret" {
     aws_secretsmanager_secret.cluster_credentials
   ]
 }
-
-resource "aws_secretsmanager_secret" "test_app_secrets" {
-  name                    = "${var.cluster_name}-test-app-secrets"
-  recovery_window_in_days = 0
-
-  depends_on = [
-    module.rosa_cluster_hcp
-  ]
-}
-
-resource "aws_secretsmanager_secret_version" "test_app" {
-  secret_id = aws_secretsmanager_secret.test_app_secrets.id
-  secret_string = jsonencode({
-    rosa_api_token    = var.RHCS_TOKEN
-  })
-  depends_on = [
-    aws_secretsmanager_secret.test_app_secrets
-  ]
-}
