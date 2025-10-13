@@ -43,8 +43,7 @@ variable "gitops_bootstrap" {
   type        = map(string)
   description = "Variables passed into the gitops helm charts"
   default = {
-    gitops_startingcsv  = "openshift-gitops-operator.v1.17.0",
-    logging_startingcsv = "someversion"
+    gitops_startingcsv  = "openshift-gitops-operator.v1.18.0"
   }
 }
 

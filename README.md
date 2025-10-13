@@ -15,3 +15,7 @@ terraform plan -var-file="clusters/<cluster_name>/cluster_variables.json"
 terraform apply -var-file="clusters/<cluster_name>/cluster_variables.json"
 
 terraform destroy -var-file="clusters/<cluster_name>/cluster_variables.json"
+
+
+Undocumented for SSO login https://console.redhat.com/openshift/token
+RHCS_CLIENT_ID and RHCS_CLIENT_SECRET.  

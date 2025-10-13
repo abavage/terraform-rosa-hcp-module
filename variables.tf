@@ -353,6 +353,12 @@ variable "ignore_machine_pools_deletion_error" {
   description = "Ignore machine pool deletion error. Assists when cluster resource is managed within the same file for the destroy use case"
 }
 
+variable "ignore_deletion_error" {
+  type        = bool
+  default     = false
+  description = "Ignore machine pool deletion error. Assists when cluster resource is managed within the same file for the destroy use case"
+}
+
 
 ##############################################################
 # Htpasswd IDP
