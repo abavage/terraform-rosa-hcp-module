@@ -23,8 +23,7 @@ resource "aws_iam_policy" "openshift_pipeline_image_builds" {
             "s3:GetObject",
             "s3:DeleteObject",
             "s3:PutObject",
-            "s3:PutObjectAcl",
-            "s3:CreateBucket"
+            "s3:PutObjectAcl"
         ]
         Resource = [
             "arn:aws:s3:::${var.cluster_name}-openshift-pipeline-image-builds/*",
