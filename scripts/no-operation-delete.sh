@@ -33,9 +33,8 @@ trap 'handle_error' ERR
 # --- Script Logic Starts Here ---
 
 echo "#########################################"
-echo "SIEM Logging Script Start"
+echo "No Operation Delete for Scott Winkler"
 echo "Current Date: $(date)"
 echo "#########################################"
 
-echo "This will run on cluster delete as a Noop"
-exit 0
+good_exit "This will run on cluster delete as a Noop"
