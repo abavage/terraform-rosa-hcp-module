@@ -54,7 +54,7 @@ resource "aws_iam_role_policy_attachment" "seim_logging_cloudwatch_policy_attach
 resource "shell_script" "enable_siem_logging" {
   lifecycle_commands {
     create = "${path.module}/scripts/enable-siem-logging.sh"
-    delete = "${path.module}/scripts/disable-siem-logging.sh"
+    delete = "${path.module}/scripts/no-operation-delete.sh"
   }
 
   environment = {
