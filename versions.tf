@@ -11,7 +11,7 @@ terraform {
       version = ">= 5.38.0"
     }
     rhcs = {
-      version = "1.7.0"
+      version = ">= 1.7.0"
       source  = "terraform-redhat/rhcs"
     }
     shell = {
@@ -34,7 +34,7 @@ terraform {
 }
 
 provider "shell" {
-  interpreter        = ["/bin/sh", "-c"]
+  interpreter        = ["/bin/bash", "-c"]
   enable_parallelism = false
   sensitive_environment = {
   }

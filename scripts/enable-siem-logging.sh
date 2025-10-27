@@ -39,15 +39,15 @@ echo "#########################################"
 
 # Authenticate with ROSA
 echo "Attempting ROSA login..."
-rosa login -t "${token}" --debug
+rosa login -t "${token}"
+
+if [ $? != 0 ]; then
+  bad_exit "Unable to login console.redhat.com"
+fi 
+
+
 echo "ROSA login successful."
 
-# Conditional logic for enabling or disabling SIEM logging
-if [[ "${enable}" == true ]]; then
-  echo "Enabling SIEM logging for cluster '${cluster}' with ARN: ${siem_role_arn}..."
-  rosa edit cluster -c "${cluster}" --audit-log-arn "${siem_role_arn}" --yes --debug
-  good_exit "SIEM logging enabled successfully for cluster '${cluster}'."
-else
-  echo "Nothing to do here '${cluster}' is being deleted"
-  good_exit "Nothing to do here '${cluster}' is being deleted"
-fi
+echo "Enabling SIEM logging for cluster '${cluster}' with ARN: ${siem_role_arn}..."
+rosa edit cluster -c "${cluster}" --audit-log-arn "${siem_role_arn}" --yes
+good_exit "SIEM logging enabled successfully for cluster '${cluster}'."

@@ -24,7 +24,7 @@ locals {
   no_proxy    = "10.0.0.0/16"
 
 
-  cloudwatch_siem_role_iam_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-seim-logging-cloudwatch-role"
+  cloudwatch_siem_role_iam_arn = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-siem-logging-cloudwatch-role"
 
 
   default_workers_labels_csv = var.default_workers_labels != null ? join(

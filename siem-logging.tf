@@ -22,8 +22,8 @@ resource "aws_iam_policy" "siem_logging_cloudwatch_policy" {
   })
 }
 
-resource "aws_iam_role" "seim_logging_cloudwatch_policy" {
-  name = "${var.cluster_name}-seim-logging-cloudwatch-role"
+resource "aws_iam_role" "siem_logging_cloudwatch_policy" {
+  name = "${var.cluster_name}-siem-logging-cloudwatch-role"
 
   assume_role_policy = jsonencode({
     Version : "2012-10-17",
@@ -47,33 +47,27 @@ resource "aws_iam_role" "seim_logging_cloudwatch_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "seim_logging_cloudwatch_policy_attach_role" {
-  role       = aws_iam_role.seim_logging_cloudwatch_policy.name
+  role       = aws_iam_role.siem_logging_cloudwatch_policy.name
   policy_arn = aws_iam_policy.siem_logging_cloudwatch_policy.arn
 }
 
 resource "shell_script" "enable_siem_logging" {
-
   lifecycle_commands {
-    create = templatefile(
-      "./scripts/siem-logging.tftpl",
-      {
-        siem_role_arn = local.cloudwatch_siem_role_iam_arn
-        cluster       = var.cluster_name
-        enable        = true
-        token         = var.RHCS_TOKEN
-    })
-    delete = templatefile(
-      "./scripts/siem-logging.tftpl",
-      {
-        siem_role_arn = local.cloudwatch_siem_role_iam_arn
-        cluster       = var.cluster_name
-        enable        = false
-        token         = var.RHCS_TOKEN
-    })
+    create = "${path.module}/scripts/enable-siem-logging.sh"
+    delete = "${path.module}/scripts/disable-siem-logging.sh"
   }
-  environment           = {}
-  sensitive_environment = {}
+
+  environment = {
+    siem_role_arn = local.cloudwatch_siem_role_iam_arn
+    cluster       = var.cluster_name
+  }
+
+  sensitive_environment = {
+    token         = var.RHCS_TOKEN
+  }
+
   depends_on = [
     module.rosa_cluster_hcp
   ]
+
 }
