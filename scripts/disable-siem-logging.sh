@@ -37,5 +37,5 @@ echo "SIEM Logging Script Start"
 echo "Current Date: $(date)"
 echo "#########################################"
 
-echo "This is will run on cluster delete and nothing is to be done"
+echo "This will run on cluster delete as a Noop"
 exit 0
