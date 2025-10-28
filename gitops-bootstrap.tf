@@ -18,7 +18,7 @@ resource "shell_script" "gitops_bootstrap" {
     #   efsFileSystemId    = data.aws_efs_file_system.fsid.id
     #   enable             = true
     #)
-    #elete = templatefile(
+    #delete = templatefile(
     # "./scripts/gitops-bootstrap.tftpl",
     # {
     #   admin_username     = module.rosa_cluster_hcp.cluster_admin_username
