@@ -58,3 +58,15 @@ variable "namespaceGitPath" {
   default = ""
   description = "The path to where the cluster will source it helm variables for namespaces"
 }
+
+variable "gitRepoUserName" {
+  type = string
+  default = ""
+  description = "Username to access the authenticated github repo"
+}
+
+variable "gitRepoPasswd" {
+  type = string
+  default = ""
+  description = "Password to access the authenticated github repo"
+}

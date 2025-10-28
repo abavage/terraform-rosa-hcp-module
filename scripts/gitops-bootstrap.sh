@@ -77,6 +77,8 @@ if [ "${enable}" == true ]; then
   --set cluster_name="${cluster_name}" \
   --set ebsKmsKeyId="${ebsKmsKeyId}" \
   --set efsFileSystemId="${efsFileSystemId}" \
+  --set gitRepoUserName="${gitRepoUserName}" \
+  --set gitRepoPasswd="${gitRepoPasswd}" \
   -n openshift
 
 

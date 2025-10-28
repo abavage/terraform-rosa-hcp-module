@@ -44,6 +44,8 @@ resource "shell_script" "gitops_bootstrap" {
     cluster_name       = var.cluster_name
     ebsKmsKeyId        = resource.aws_kms_key.ebs.arn
     efsFileSystemId    = data.aws_efs_file_system.fsid.id
+    gitRepoUserName    = var.gitRepoUserName
+    gitRepoPasswd      = var.gitRepoPasswd
     enable             = true
   }
   sensitive_environment = {}
