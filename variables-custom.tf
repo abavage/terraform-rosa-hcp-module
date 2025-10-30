@@ -61,12 +61,12 @@ variable "namespaceGitPath" {
 
 variable "gitRepoUserName" {
   type = string
-  default = "user-name"
+  default = null
   description = "Username to access the authenticated github repo"
 }
 
 variable "gitRepoPasswd" {
   type = string
-  default = "thepassword"
+  default = null
   description = "Password to access the authenticated github repo"
 }
