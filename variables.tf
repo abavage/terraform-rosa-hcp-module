@@ -95,7 +95,7 @@ variable "admin_credentials_password" {
 
 variable "ec2_metadata_http_tokens" {
   type        = string
-  default     = "optional"
+  default     = "optional" # required
   description = "Should cluster nodes use both v1 and v2 endpoints or just v2 endpoint of EC2 Instance Metadata Service (IMDS). Available since OpenShift 4.11.0."
 }
 
