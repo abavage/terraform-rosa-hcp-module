@@ -60,6 +60,7 @@ module "rosa_cluster_hcp" {
   kms_key_arn              = resource.aws_kms_key.ebs.arn
   aws_billing_account_id   = "604574367752"
   ec2_metadata_http_tokens = var.ec2_metadata_http_tokens
+  domain_prefix        = var.domain_prefix
 
   ########
   # Cluster Admin User

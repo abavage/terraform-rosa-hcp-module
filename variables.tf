@@ -95,8 +95,32 @@ variable "admin_credentials_password" {
 
 variable "ec2_metadata_http_tokens" {
   type        = string
-  default     = "optional" # required
+  default     = "required" # optional
   description = "Should cluster nodes use both v1 and v2 endpoints or just v2 endpoint of EC2 Instance Metadata Service (IMDS). Available since OpenShift 4.11.0."
+}
+
+variable "create_dns_domain_reservation" {
+  description = "Creates reserves a dns domain domain for the cluster. This value will be created by the install step if not pre created via this configuration."
+  type        = bool
+  default     = false
+}
+
+variable "base_dns_domain" {
+  type        = string
+  default     = null
+  description = "Base DNS domain name previously reserved, e.g. '1vo8.p3.openshiftapps.com'."
+}
+
+variable "domain_prefix" {
+  type        = string
+  default     = null
+  description = "Creates a domain_prefix for your ROSA cluster. Defaults to a random string if not set"
+}
+
+variable "aws_additional_allowed_principals" {
+  type        = list(string)
+  default     = null
+  description = "The additional allowed principals to use when installing the cluster."
 }
 
 ##############################################################

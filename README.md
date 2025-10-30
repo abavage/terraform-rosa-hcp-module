@@ -98,7 +98,7 @@ The primary sub-modules responsible for ROSA HCP cluster creation includes optio
 | aws_additional_compute_security_group_ids| The additional security group IDs to be added to the default worker machine pool. | `list(string)` | `null` | no |
 | aws_availability_zones | The AWS availability zones where instances of the default worker machine pool are deployed. Leave empty for the installer to pick availability zones | `list(string)` | `[]` | no |
 | aws_billing_account_id | The AWS billing account identifier where all resources are billed. If no information is provided, the data will be retrieved from the currently connected account. | `string` | `null` | yes |
-| aws_subnet_ids| The Subnet IDs to use when installing the cluster. | `list(string)` | n/a | yes |
+| aws_subnet_ids| The Subnet IDs to use when installing the cluster. | `list(string)` | see `private_aws_subnet_ids` | yes |
 | base_dns_domain | Base DNS domain name previously reserved, e.g. '1vo8.p3.openshiftapps.com'. | `string` | `null` | no |
 | cluster_autoscaler_enabled | Enable Autoscaler for this cluster. This resource is currently unavailable and using will result in error 'Autoscaler configuration is not available' | `bool` | `false` | no |
 | cluster_name | Name of the cluster. After the creation of the resource, it is not possible to update the attribute value. | `string` | n/a | yes |
@@ -144,27 +144,6 @@ The primary sub-modules responsible for ROSA HCP cluster creation includes optio
 | wait_for_std_compute_nodes_complete | Wait until the initial set of machine pools to be available. The waiter has a timeout of 60 minutes. (default: true) | `bool` | `true` | no |
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Custom Variables
 | Name | Description | Type | Default | Required | Example |
 |------|-------------|------|---------|----------|---------|
@@ -174,21 +153,8 @@ The primary sub-modules responsible for ROSA HCP cluster creation includes optio
 | default_workers_min_replicas | Minimum replcias for the default worker machinepools | `number` | NA | `yes` | |
 | default_workers_max_replicas | Max replcias for the default worker machinepools | `number` | NA  | `yes` | |
 | default_workers_labels | Additional node lables to add to the worker machinepools | `map(string)` | NA | `no` | |
-| gitops_bootstrap | Variables passed into the gitops-operator-bootstrap helm chart | `map(string)` | NA | `yes` | gitops_startingcsv  = `"openshift-gitops-operator.v1.18.0"` |
+| gitops_bootstrap | Variables passed into the gitops-operator-bootstrap helm chart | `map(string)` | NA | `yes` | `gitops_startingcsv  = "openshift-gitops-operator.v1.18.0"` |
 | infrastructureGitPath | The git repo path to where the cluster will source it helm variables for infrastructure components | `string` | NA | `yes` | |
 | namespaceGitPath | The git repo path to where the cluster will source it helm variables for namespaces creation | `string` | NA | `yes` | |
 | gitRepoUserName | Username to access the authenticated github repo for argocd repositories | `string` | NA | `no` | | |
 | gitRepoPasswd | Password  to access the authenticated github repo for argocd repositories | `string` | NA | `no` | |
-
-
-
-
-
-
-
-
-
-
-
-
-
