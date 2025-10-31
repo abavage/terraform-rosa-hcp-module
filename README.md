@@ -20,11 +20,18 @@ terraform destroy -var-file="clusters/<cluster_name>/cluster_variables.json"
 Undocumented for SSO login https://console.redhat.com/openshift/token
 RHCS_CLIENT_ID and RHCS_CLIENT_SECRET.  
 
-### ROSA HCP Terraform 
+### RHCS ROSA HCP Terraform 
 Terraform module which creates ROSA HCP cluster
 
 ## Introduction
 This module serves as a comprehensive solution for deploying, configuring and managing Red Hat OpenShift on AWS (ROSA) Hosted Control Plane (HCP) clusters within your AWS environment. With a focus on simplicity and efficiency, this module streamlines the process of setting up and maintaining ROSA HCP clusters, enabling users to use the power of OpenShift on AWS infrastructure effortlessly.
+
+
+## RHCS ROSA HCP Terraform Module 
+* [Red Hat Cloud Services,  Red Hat OpenShift Service on AWS](https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp)
+
+## RHCS ROSA HCP Terrform Provider
+* [Red Hat Cloud Services,  Red Hat OpenShift Service on AWS](https://github.com/terraform-redhat/terraform-provider-rhcs)
 
 
 ## Sub-Modules
