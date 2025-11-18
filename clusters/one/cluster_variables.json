@@ -3,12 +3,12 @@
   "openshift_version": "4.19.6",
   "aws_region": "ap-southeast-2",
   "private_aws_subnet_ids": [
-    "subnet-08bacd56af4939ac0",
-    "subnet-06490e446d877dd3e",
-    "subnet-0ffdf8249a65af1a5"
+    "subnet-03772fdd9963e3223",
+    "subnet-08d6fb6163321f7a8",
+    "subnet-0f0abcaad4555ee1c"
   ],
   "public_aws_subnet_ids": [
-    "subnet-01e5f4651c954ea53"
+    "subnet-026e6e01884b5089a"
   ],
 
   "aws_private_subnet_cidrs": [
@@ -46,7 +46,7 @@
   "pod_cidr": "10.128.0.0/14",
   "host_prefix": "23",
 
-  "autoscaler_max_nodes_total": 24,
+  "autoscaler_max_nodes_total": 8,
 
   "machine_pools": {
     "pool-01": {
@@ -67,7 +67,7 @@
         "max_replicas": 1
       },
       "openshift_version": "4.19.6",
-      "subnet_id": "subnet-0ffdf8249a65af1a5",
+      "subnet_id": "subnet-03772fdd9963e3223",
       "ignore_deletion_error": true,
       "kubelet_configs": "custom-kubelet"
     }

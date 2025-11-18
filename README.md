@@ -88,8 +88,7 @@ The primary sub-modules responsible for ROSA HCP cluster creation includes optio
 | rhcs_hcp_kubelet_configs | [github](https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp/tree/main/modules/kubelet-configs) | NA |
 
 
-## Variables
-
+## Variables - `variables.tf`
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
@@ -151,7 +150,7 @@ The primary sub-modules responsible for ROSA HCP cluster creation includes optio
 | wait_for_std_compute_nodes_complete | Wait until the initial set of machine pools to be available. The waiter has a timeout of 60 minutes. (default: true) | `bool` | `true` | no |
 
 
-## Custom Variables
+## Custom Variables - `variables-custom.tf`
 | Name | Description | Type | Default | Required | Example |
 |------|-------------|------|---------|----------|---------|
 | RHCS_TOKEN | API key for the cluster to access api.openshift.com | `string` | NA | `yes` | |
@@ -161,7 +160,91 @@ The primary sub-modules responsible for ROSA HCP cluster creation includes optio
 | default_workers_max_replicas | Max replcias for the default worker machinepools | `number` | NA  | `yes` | |
 | default_workers_labels | Additional node lables to add to the worker machinepools | `map(string)` | NA | `no` | |
 | gitops_bootstrap | Variables passed into the gitops-operator-bootstrap helm chart | `map(string)` | NA | `yes` | `gitops_startingcsv  = "openshift-gitops-operator.v1.18.0"` |
-| infrastructureGitPath | The git repo path to where the cluster will source it helm variables for infrastructure components | `string` | NA | `yes` | |
-| namespaceGitPath | The git repo path to where the cluster will source it helm variables for namespaces creation | `string` | NA | `yes` | |
-| gitRepoUserName | Username to access the authenticated github repo for argocd repositories | `string` | NA | `no` | | |
-| gitRepoPasswd | Password  to access the authenticated github repo for argocd repositories | `string` | NA | `no` | |
+| infrastructureGitPath | The git repo path to where the cluster will source it helm variables for infrastructure components [awsvicgovprd01-rosa-helm-config](https://github.com/VG-CTX-StorageUnixServices/awsvicgovprd01-rosa-helm-config) | `string` | NA | `yes` | `"prod/rosaprd01/infrastructure.yaml"` |
+| namespaceGitPath | The git repo path to where the cluster will source it helm variables for namespaces creation [awsvicgovprd01-rosa-helm-config](https://github.com/VG-CTX-StorageUnixServices/awsvicgovprd01-rosa-helm-config) | `string` | NA | `yes` | `"prod/rosaprd01"` |
+| gitRepoUserName | Username to access the authenticated github repo for argocd repositories | `string` | NA | `yes` | `variable passed in from HCP as a TF_VAR_gitRepoUserName` |
+| gitRepoPasswd | Password  to access the authenticated github repo for argocd repositories | `string` | NA | `yes` |  `variable passed in from HCP as a TF_VAR_gitRepoPasswd` |
+
+## Adding a New Cluster
+When a new cluster is required the following will need to be known in advance.
+All the required variables are defined above.
+
+1. cluster_name
+2. openshift_version
+3. aws_region
+4. private_aws_subnet_ids
+5. aws_private_subnet_cidrs
+6. aws_availability_zones
+7. private (cluster)
+8. infrastructureGitPath
+9. namespaceGitPath
+10. replicas
+11. compute_machine_type
+12. default_workers_min_replicas
+13. default_workers_max_replicas
+14. default_workers_labels
+15. machine_cidr
+16. service_cidr
+17. pod_cidr
+18. host_prefix
+
+The required variables are to be defined in a `~/clusters/<cluster_name>.tfvars` directory in this repository. Hashicorp Cloud Platform (HCP) will have a 1:1 relationship between the HCP workspace and a `clusters/<cluster_name>.tfvars` filename. This will give seperation between the statefiles while consuming the configuration in this repository. 
+
+## Example
+Configuration variables for a new cluster deployment.
+
+Save the tfvars file as: `~/clusters/rosadev10.tfvars`
+
+```
+cluster_name  = "rosadev10"
+openshift_version  = "4.19.21"
+aws_region  = "ap-southeast-4"
+private_aws_subnet_ids  = [
+    "subnet-aaaaaaaaa",
+    "subnet-bbbbbbbbb"
+  ]
+
+aws_private_subnet_cidrs  = [
+    "192.168.1.0/25",
+    "192.168.1.128/25"
+  ]
+
+aws_availability_zones  = [
+    "ap-southeast-4a",
+    "ap-southeast-4b"
+  ]
+  
+private  = true
+
+# config sourced from https://github.com/VG-CTX-StorageUnixServices/awsvicgovprd01-rosa-helm-config
+infrastructureGitPath  = "prod/rosadev10/infrastructure.yaml"
+namespaceGitPath  = "prod/rosadev10"
+
+etcd_encryption  = true
+
+replicas  = 2
+compute_machine_type  = "m5.xlarge"
+
+default_workers_min_replicas  = 1
+default_workers_max_replicas  = 3
+
+default_workers_labels  = {
+    "k8s.ovn.org/egress-assignable": "",
+    "clustername": "rosadev10"
+  }
+
+machine_cidr  = "192.168.1.0/24"
+service_cidr  = "172.30.0.0/16"
+pod_cidr    = "10.128.0.0/14"
+host_prefix  = "23"
+
+autoscaler_max_nodes_total  = 12
+```
+
+## HCP Workspace
+Each new cluster requires its own dedicated HCP (HashiCorp Cloud Platform) workspace. This 1:1 mapping is a best practice for two critical reasons:
+
+`State File Isolation`: It ensures the cluster's state file is completely separate from other environments. This prevents accidental changes, avoids state conflicts, and reduces the "blast radius" of any operation.
+
+`Targeted Configuration`: It allows the workspace to source its own unique variables file (e.g., clusters/rosadev10.tfvars), ensuring the correct configuration is applied to the correct cluster.
+

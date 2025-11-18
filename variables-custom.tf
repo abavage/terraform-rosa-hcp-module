@@ -70,3 +70,33 @@ variable "gitRepoPasswd" {
   default = null
   description = "Password to access the authenticated github repo"
 }
+
+variable "postgresql_host" {
+  type = string
+  default = null
+  description = "postgresql host for the AAP database"
+}
+
+variable "postgresql_port" {
+  type = number
+  default = null
+  description = "postgresql port for the AAP database"
+}
+
+variable "postgresql_database" {
+  type = string
+  default = null
+  description = "postgresql AAP database name"
+}
+
+variable "postgresql_username" {
+  type = string
+  default = null
+  description = "postgresql AAP database username"
+}
+
+variable "postgresql_password" {
+  type = string
+  default = null
+  description = "postgresql AAP database password"
+}

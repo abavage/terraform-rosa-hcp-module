@@ -38,3 +38,4 @@ echo "Current Date: $(date)"
 echo "#########################################"
 
 good_exit "This will run on cluster delete as a Noop"
+exit 0
