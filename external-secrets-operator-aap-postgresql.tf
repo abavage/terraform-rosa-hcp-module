@@ -1,6 +1,7 @@
 #######################
 #
-# framework to create aws secrets manager store, IAM policy / trust policy. For the "project: aap", "serviceAccount: aws-secret-store"
+# framework to create aws secrets manager secret, IAM policy / trust policy. 
+# For "project: aap", "serviceAccount: aws-secret-store", "secret: external-postgres-configuration "
 #
 #######################
 
