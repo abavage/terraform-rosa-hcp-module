@@ -79,7 +79,7 @@ variable "postgresql_host" {
 
 variable "postgresql_port" {
   type = number
-  default = null
+  default = 5432
   description = "postgresql port for the AAP database"
 }
 
@@ -99,4 +99,16 @@ variable "postgresql_password" {
   type = string
   default = null
   description = "postgresql AAP database password"
+}
+
+variable "postgresql_sslmode" {
+  type = string
+  default = "prefer"
+  description = "postgresql AAP ssl mode"
+}
+
+variable "postgresql_type" {
+  type = string
+  default = "unmanaged"
+  description = "postgresql AAP database type"
 }

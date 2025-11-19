@@ -17,13 +17,13 @@ resource "aws_secretsmanager_secret" "aap_postgresql_database" {
 resource "aws_secretsmanager_secret_version" "aap_postgresql_database" {
   secret_id = aws_secretsmanager_secret.aap_postgresql_database.id
   secret_string = jsonencode({
-    host              = var.postgresql_host
-    port              = var.postgresql_port
-    database          = var.postgresql_database
-    username          = var.postgresql_username
-    password          = var.postgresql_password
-    sslmode           = "prefer" 
-    type              = "unmanaged"
+    host              = var.postgresql_host,
+    port              = var.postgresql_port,
+    database          = var.postgresql_database,
+    username          = var.postgresql_username,
+    password          = var.postgresql_password,
+    sslmode           = var.postgresql_sslmode,
+    type              = var.postgresql_type
   })
   depends_on = [
     aws_secretsmanager_secret.aap_postgresql_database
@@ -84,7 +84,7 @@ resource "aws_iam_role" "aap_postgresql_database" {
         Condition = {
           StringEquals = {
             "${module.oidc_config_and_provider.oidc_endpoint_url}:sub" = [
-              "system:serviceaccount:aap:aws-secret-store"
+              "system:serviceaccount:aap:aws-secret-manager"
             ]
           }
         }
