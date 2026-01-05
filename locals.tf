@@ -55,7 +55,7 @@ locals {
       openid_idp_client_secret             = "123456789" # replace with valid <client-secret>
       openid_idp_extra_scopes              = (["email","profile"])
       #openid_idp_extra_authorize_parameters = ""
-      openid_idp_issuer                    = "https://example.com"
+      openid_idp_issuer                    = var.openid_idp_issuer
     }
   }
 

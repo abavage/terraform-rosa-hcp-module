@@ -13,4 +13,3 @@ data "aws_efs_file_system" "fsid" {
     aws_efs_file_system.rosa_efs
   ]
 }
-

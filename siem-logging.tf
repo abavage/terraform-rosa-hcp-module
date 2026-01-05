@@ -37,7 +37,8 @@ resource "aws_iam_role" "siem_logging_cloudwatch_policy" {
         Condition : {
           StringEquals : {
             "${module.oidc_config_and_provider.oidc_endpoint_url}:sub" = [
-              "system:serviceaccount:openshift-config-managed:cloudwatch-audit-exporter"
+              "system:serviceaccount:openshift-config-managed:cloudwatch-audit-exporter",
+              "system:serviceaccount:openshift-logging:logcollector"
             ]
           }
         }
