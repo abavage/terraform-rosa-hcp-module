@@ -67,9 +67,9 @@ resource "shell_script" "enable_siem_logging" {
     token         = var.RHCS_TOKEN
   }
 
-  triggers = {
-    always_run = timestamp()
-  }
+  #triggers = {
+  #  always_run = timestamp()
+  #}
 
   depends_on = [
     module.rosa_cluster_hcp
