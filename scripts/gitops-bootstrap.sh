@@ -64,14 +64,20 @@ if [ "${enable}" == true ]; then
     exit 1
   fi
 
+  domain=$(echo ${api_url} | awk -F. '{print $2"."$3"."$4"."$5"."$6}' | sed 's/:443$//')
+
   if [ -d /tmp/scratch ]; then
     echo "removing old charts"
     rm -rf /tmp/scratch
   fi
 
   git clone https://github.com/abavage/helm-gitops.git /tmp/scratch
-  helm upgrade --install gitops-operator-bootstrap /tmp/scratch/charts/gitops-operator-bootstrap \
+  helm upgrade --install gitops-operator /tmp/scratch/charts/gitops-operator \
   --set csv="${gitops_startingcsv}" \
+  -n openshift
+
+
+  helm upgrade --install gitops-bootstrap /tmp/scratch/charts/gitops-bootstrap \
   --set infrastructureGitPath="${infrastructureGitPath}" \
   --set namespaceGitPath="${namespaceGitPath}" \
   --set cluster_name="${cluster_name}" \
@@ -79,14 +85,14 @@ if [ "${enable}" == true ]; then
   --set efsFileSystemId="${efsFileSystemId}" \
   --set gitRepoUserName="${gitRepoUserName}" \
   --set gitRepoPasswd="${gitRepoPasswd}" \
+  --set domain="$domain" \
   -n openshift
 
-
-  HELM=$(helm list -n openshift --no-headers | awk '{print $8}')
+  HELM=$(helm list -n openshift --no-headers | egrep 'gitops-operator|gitops-bootstrap' | awk '{print $8}' | sort -u)
   if [[ $HELM != deployed ]]; then
-    bad_exit "Failed to install the gitops-operator-bootstrap chart"
+    bad_exit "Failed to install the gitops-bootstrap chart"
   else
-    good_exit "Helm install of the gitops-operator-bootstrap chart was successful."
+    good_exit "Helm install of the gitops-bootstrap chart was successful."
   fi
 
 else
