@@ -64,7 +64,7 @@ if [ "${enable}" == true ]; then
     exit 1
   fi
 
-  domain=$(echo ${api_url} | awk -F. '{print $2"."$3"."$4"."$5"."$6}' | sed 's/:443$//')
+  #domain=$(echo ${api_url} | awk -F. '{print $2"."$3"."$4"."$5"."$6}' | sed 's/:443$//')
 
   if [ -d /tmp/scratch ]; then
     echo "removing old charts"
@@ -85,7 +85,7 @@ if [ "${enable}" == true ]; then
   --set efsFileSystemId="${efsFileSystemId}" \
   --set gitRepoUserName="${gitRepoUserName}" \
   --set gitRepoPasswd="${gitRepoPasswd}" \
-  --set domain="$domain" \
+  --set domain="{$domain}" \
   -n openshift
 
   HELM=$(helm list -n openshift --no-headers | egrep 'gitops-operator|gitops-bootstrap' | awk '{print $8}' | sort -u)

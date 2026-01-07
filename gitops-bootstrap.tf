@@ -46,6 +46,7 @@ resource "shell_script" "gitops_bootstrap" {
     efsFileSystemId    = data.aws_efs_file_system.fsid.id
     gitRepoUserName    = var.gitRepoUserName
     gitRepoPasswd      = var.gitRepoPasswd
+    domain             = module.rosa_cluster_hcp.cluster_domain
     enable             = true
   }
   sensitive_environment = {}
