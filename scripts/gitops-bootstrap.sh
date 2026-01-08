@@ -85,7 +85,7 @@ if [ "${enable}" == true ]; then
   --set efsFileSystemId="${efsFileSystemId}" \
   --set gitRepoUserName="${gitRepoUserName}" \
   --set gitRepoPasswd="${gitRepoPasswd}" \
-  --set domain="{$domain}" \
+  --set domain="${domain}" \
   -n openshift
 
   HELM=$(helm list -n openshift --no-headers | egrep 'gitops-operator|gitops-bootstrap' | awk '{print $8}' | sort -u)
