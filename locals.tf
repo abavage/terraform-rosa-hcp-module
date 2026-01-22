@@ -14,10 +14,10 @@ locals {
     three        = "four"
   }
 
-  rosa_aws_subnet_ids = concat(
-    var.public_aws_subnet_ids,
-    var.private_aws_subnet_ids
-  )
+  #rosa_aws_subnet_ids = concat(
+  #  var.public_aws_subnet_ids,
+  #  var.private_aws_subnet_ids
+  #)
 
   http_proxy  = "http://10.0.2.21:3128"
   https_proxy = "http://10.0.2.21:3128"
