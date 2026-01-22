@@ -1,7 +1,8 @@
 resource "shell_script" "gitops_bootstrap" {
 
   lifecycle_commands {
-    create = "${path.module}/scripts/gitops-bootstrap.sh"
+    #create = "${path.module}/scripts/gitops-bootstrap.sh"
+    create = "${path.module}/scripts/no-operation-delete.sh"
     delete = "${path.module}/scripts/no-operation-delete.sh"
 
     #create = templatefile(

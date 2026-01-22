@@ -45,7 +45,9 @@ module "rosa_cluster_hcp" {
   support_role_arn     = module.account_iam_resources.account_roles_arn["HCP-ROSA-Support"]
   worker_role_arn      = module.account_iam_resources.account_roles_arn["HCP-ROSA-Worker"]
   oidc_config_id       = module.oidc_config_and_provider.oidc_config_id
-  aws_subnet_ids       = local.rosa_aws_subnet_ids
+  #aws_subnet_ids       = local.rosa_aws_subnet_ids
+  aws_subnet_ids       = concat(var.private_aws_subnet_ids, var.public_aws_subnet_ids)
+  #aws_subnet_ids       = var.private_aws_subnet_ids
   machine_cidr         = var.machine_cidr
   service_cidr         = var.service_cidr
   pod_cidr             = var.pod_cidr
