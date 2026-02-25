@@ -32,9 +32,7 @@ resource "aws_iam_policy" "rosa_monitoring_sns_policy" {
         Action = [
           "sns:Publish"
         ]
-        #Resource = "arn:aws:sns:ap-southeast-2:281359555390:one-rosa-monitoring-sns-topic"
         Resource = "arn:aws:sns:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:${var.cluster_name}-rosa-monitoring-sns-topic"
-        # arn:aws:sns:ap-southeast-2:data.aws_caller_identity.current.account_id:one-rosa-monitoring-sns-topic
       }
     ]
   })

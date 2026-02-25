@@ -1,6 +1,6 @@
 cluster_name        = "one"
-openshift_version   = "4.19.6"
-#openshift_version   = "4.17.15" cenitex
+#openshift_version   = "4.19.6"
+openshift_version   = "4.17.43" # cenitex
 #openshift_version    = "4.18.30"
 
 #upgrade_acknowledgements_for = "4.18"
@@ -8,13 +8,13 @@ openshift_version   = "4.19.6"
 aws_region          = "ap-southeast-2"
 
 private_aws_subnet_ids = [
-  "subnet-04d2633265eee24e2",
-  "subnet-043a6035f0e9373e5",
-  "subnet-0ffcbe1f2a454ca54",
+  "subnet-015cb35848c16cabb",
+  "subnet-07f0c965c06dcc7a7",
+  "subnet-0c18692a0767836d2",
 ]
 
 public_aws_subnet_ids = [
-  #"subnet-0e8b43c72ece8461e"
+  "subnet-0d08c1678361752b8"
 ]
 
 aws_private_subnet_cidrs = [
@@ -29,10 +29,10 @@ aws_availability_zones = [
   "ap-southeast-2c",
 ]
 
-private = true
+private = false
 
 properties = {
-  zero_egress = "true"
+  zero_egress = "false"
 }
 
 infrastructureGitPath = "nonprod/one/infrastructure.yaml"
@@ -48,7 +48,7 @@ replicas             = 3
 compute_machine_type = "m5.xlarge"
 
 default_workers_min_replicas = 1
-default_workers_max_replicas = 2
+default_workers_max_replicas = 1
 
 default_workers_labels = {
   "k8s.ovn.org/egress-assignable" = ""
@@ -60,35 +60,35 @@ service_cidr = "172.30.0.0/16"
 pod_cidr     = "10.128.0.0/14"
 host_prefix  = 23
 
-autoscaler_max_nodes_total = 8
+autoscaler_max_nodes_total = 3
 
-machine_pools = {
-  "pool-01" = {
-    name = "pool-01"
-
-    aws_node_pool = {
-      instance_type                 = "m5.xlarge"
-      tags                          = {}
-      additional_security_group_ids = null
-    }
-
-    auto_repair = true
-
-    labels = {
-      "k8s.ovn.org/egress-assignable" = ""
-      clustername                    = "one"
-    }
-
-    autoscaling = {
-      enabled      = true
-      min_replicas = 1
-      max_replicas = 1
-    }
-
-    openshift_version      = "4.19.6"
-    #openshift_version   = "4.17.15" cenitex
-    subnet_id              = "subnet-04d2633265eee24e2"
-    ignore_deletion_error  = true
-    kubelet_configs        = "custom-kubelet"
-  }
-}
+#machine_pools = {
+#  "pool-01" = {
+#    name = "pool-01"
+#
+#    aws_node_pool = {
+#      instance_type                 = "m5.xlarge"
+#      tags                          = {}
+#      additional_security_group_ids = null
+#    }
+#
+#    auto_repair = true
+#
+#    labels = {
+#      "k8s.ovn.org/egress-assignable" = ""
+#      clustername                    = "one"
+#    }
+#
+#    autoscaling = {
+#      enabled      = true
+#      min_replicas = 1
+#      max_replicas = 1
+#    }
+#
+#    openshift_version      = "4.19.6"
+#    #openshift_version   = "4.17.15" cenitex
+#    subnet_id              = "subnet-04d2633265eee24e2"
+#    ignore_deletion_error  = true
+#    kubelet_configs        = "custom-kubelet"
+#  }
+#}
