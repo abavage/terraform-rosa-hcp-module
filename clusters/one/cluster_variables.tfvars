@@ -8,13 +8,13 @@ openshift_version   = "4.17.43" # cenitex
 aws_region          = "ap-southeast-2"
 
 private_aws_subnet_ids = [
-  "subnet-015cb35848c16cabb",
-  "subnet-07f0c965c06dcc7a7",
-  "subnet-0c18692a0767836d2",
+  "subnet-0aeee693feb103fe4",
+  "subnet-0491b4678857ddcc4",
+  "subnet-06508eb002acb5b08",
 ]
 
 public_aws_subnet_ids = [
-  "subnet-0d08c1678361752b8"
+  "subnet-063a935dac84372b5"
 ]
 
 aws_private_subnet_cidrs = [

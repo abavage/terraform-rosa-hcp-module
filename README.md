@@ -248,3 +248,11 @@ Each new cluster requires its own dedicated HCP (HashiCorp Cloud Platform) works
 
 `Targeted Configuration`: It allows the workspace to source its own unique variables file (e.g., clusters/rosadev10.tfvars), ensuring the correct configuration is applied to the correct cluster.
 
+
+## Notes
+When adding an additional ingresscontroller the default ingresscontroller needs to be patched. This stops routes from the `apps` ingresscontroller from being accepted on this default.
+
+Namespaces need the label `ingress: apps` on them to be accepted on the IC.
+```
+$ oc patch ingresscontroller default -n openshift-ingress-operator --type='merge' -p ' {"spec": {"namespaceSelector": {"matchExpressions": [{ "key": "ingress", "operator": "NotIn", "values": ["'apps'"]}]}}}'
+```
