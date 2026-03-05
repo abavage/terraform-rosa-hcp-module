@@ -20,6 +20,13 @@ terraform destroy -var-file="clusters/<cluster_name>/cluster_variables.tfvars"
 Undocumented for SSO login https://console.redhat.com/openshift/token
 RHCS_CLIENT_ID and RHCS_CLIENT_SECRET.  
 
+## Debug options for run time
+
+```
+export TF_LOG_PROVIDER=DEBUG
+export TF_LOG_PATH=./debug-terraform-logs.txt
+```
+
 ### RHCS ROSA HCP Terraform 
 Terraform module which creates ROSA HCP cluster
 

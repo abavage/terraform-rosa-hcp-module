@@ -1,20 +1,20 @@
 cluster_name        = "one"
 #openshift_version   = "4.19.6"
 openshift_version   = "4.17.43" # cenitex
-#openshift_version    = "4.18.30"
+#openshift_version    = "4.18.28"
 
-#upgrade_acknowledgements_for = "4.18"
+upgrade_acknowledgements_for = "4.18"
 
 aws_region          = "ap-southeast-2"
 
 private_aws_subnet_ids = [
-  "subnet-0aeee693feb103fe4",
-  "subnet-0491b4678857ddcc4",
-  "subnet-06508eb002acb5b08",
+  "subnet-0d7c68b9ac0714fdd",
+  "subnet-0f407a69ac6152821",
+  "subnet-0614017b15adcd74e",
 ]
 
 public_aws_subnet_ids = [
-  "subnet-063a935dac84372b5"
+  "subnet-07b50e320b4a34882"
 ]
 
 aws_private_subnet_cidrs = [
