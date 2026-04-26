@@ -229,3 +229,14 @@ resource "random_string" "random" {
   min_lower   = 6
   min_upper   = 6
 }
+
+
+
+## PLan text secret bi key/value at all manually created
+#data "aws_secretsmanager_secret_version" "credentials" {
+#  secret_id = "cert3"
+#}
+
+#output "cert" {
+#  value = nonsensitive(data.aws_secretsmanager_secret_version.credentials.secret_string)
+#}

@@ -43,8 +43,17 @@ variable "gitops_bootstrap" {
   type        = map(string)
   description = "Variables passed into the gitops helm charts"
   default = {
-    gitops_startingcsv  = null
+    gitopsStartingCsv  = null
+    gitopsOperatorBootstrapChartVersion  = ""
+    appOfAppsVersion = ""
+    namespacesChartVersion = ""
   }
+}
+
+variable "gitopsOperatorChartVersion" {
+  type = string
+  default = null
+  description = "Helm version of for the gitops-operator helm chart"
 }
 
 variable "infrastructureGitPath" {

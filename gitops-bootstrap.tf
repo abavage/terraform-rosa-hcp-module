@@ -1,8 +1,8 @@
 resource "shell_script" "gitops_bootstrap" {
 
   lifecycle_commands {
-    #create = "${path.module}/scripts/gitops-bootstrap.sh"
-    create = "${path.module}/scripts/no-operation-delete.sh"
+    create = "${path.module}/scripts/gitops-bootstrap.sh"
+    #create = "${path.module}/scripts/no-operation-delete.sh"
     delete = "${path.module}/scripts/no-operation-delete.sh"
 
     #create = templatefile(
@@ -39,7 +39,7 @@ resource "shell_script" "gitops_bootstrap" {
     admin_username     = module.rosa_cluster_hcp.cluster_admin_username
     api_url            = module.rosa_cluster_hcp.cluster_api_url
     admin_passwd       = random_string.random.result
-    gitops_startingcsv = var.gitops_bootstrap.gitops_startingcsv
+    gitopsStartingCsv = var.gitops_bootstrap.gitopsStartingCsv
     infrastructureGitPath     = var.infrastructureGitPath
     namespaceGitPath   = var.namespaceGitPath
     cluster_name       = var.cluster_name
@@ -48,6 +48,10 @@ resource "shell_script" "gitops_bootstrap" {
     gitRepoUserName    = var.gitRepoUserName
     gitRepoPasswd      = var.gitRepoPasswd
     domain             = module.rosa_cluster_hcp.cluster_domain
+    gitopsOperatorBootstrapChartVersion  = var.gitops_bootstrap.gitopsOperatorBootstrapChartVersion
+    appOfAppsVersion   = var.gitops_bootstrap.appOfAppsVersion
+    gitopsOperatorChartVersion = var.gitopsOperatorChartVersion
+    namespacesChartVersion = var.gitops_bootstrap.namespacesChartVersion
     enable             = true
   }
   sensitive_environment = {}

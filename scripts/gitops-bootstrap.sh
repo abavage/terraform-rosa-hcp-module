@@ -71,22 +71,37 @@ if [ "${enable}" == true ]; then
     rm -rf /tmp/scratch
   fi
 
-  git clone https://github.com/abavage/helm-gitops.git /tmp/scratch
-  helm upgrade --install gitops-operator /tmp/scratch/charts/gitops-operator \
-  --set csv="${gitops_startingcsv}" \
+  #git clone https://github.com/abavage/helm-gitops.git /tmp/scratch
+  #helm upgrade --install gitops-operator /tmp/scratch/charts/gitops-operator \
+  #--set csv="${gitops_startingcsv}" \
+  #-n openshift
+  
+  helm repo add helm-gitops https://abavage.github.io/helm-gitops/
+  helm repo update helm-gitops
+  
+
+  helm upgrade --install gitops-operator helm-gitops/gitops-operator \
+  --version "${gitopsOperatorChartVersion}" \
+  --set csv="${gitopsStartingCsv}" \
   -n openshift
 
 
-  helm upgrade --install gitops-bootstrap /tmp/scratch/charts/gitops-bootstrap \
+  #helm upgrade --install gitops-bootstrap /tmp/scratch/charts/gitops-bootstrap \
+  #--set gitRepoUserName="${gitRepoUserName}" \
+  #--set gitRepoPasswd="${gitRepoPasswd}" \
+  #--set targetRevision="${targetRevision}" \
+
+  helm upgrade --install gitops-operator-bootstrap --version "${gitopsOperatorBootstrapChartVersion}" helm-gitops/gitops-operator-bootstrap \
   --set infrastructureGitPath="${infrastructureGitPath}" \
   --set namespaceGitPath="${namespaceGitPath}" \
   --set cluster_name="${cluster_name}" \
   --set ebsKmsKeyId="${ebsKmsKeyId}" \
   --set efsFileSystemId="${efsFileSystemId}" \
-  --set gitRepoUserName="${gitRepoUserName}" \
-  --set gitRepoPasswd="${gitRepoPasswd}" \
   --set domain="${domain}" \
+  --set appOfAppsVersion="${appOfAppsVersion}" \
+  --set namespacesChartVersion="${namespacesChartVersion}" \
   -n openshift
+
 
   HELM=$(helm list -n openshift --no-headers | egrep 'gitops-operator|gitops-bootstrap' | awk '{print $8}' | sort -u)
   if [[ $HELM != deployed ]]; then
