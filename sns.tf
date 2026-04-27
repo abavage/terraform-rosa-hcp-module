@@ -15,7 +15,7 @@ resource "aws_sns_topic" "monitoring_sns_topic" {
 resource "aws_sns_topic_subscription" "monitoring_sns_topic_subscription" {
   topic_arn = aws_sns_topic.monitoring_sns_topic.arn
   protocol  = "email"
-  endpoint  = "abavage@redhat.com"
+  endpoint  = "var.sns_endpoint_subscription"
 }
 
 resource "aws_iam_policy" "rosa_monitoring_sns_policy" {
@@ -58,7 +58,8 @@ resource "aws_iam_role" "rosa_monitoring_sns_role" {
         Condition = {
           StringEquals = {
             "${module.oidc_config_and_provider.oidc_endpoint_url}:sub" = [
-              "system:serviceaccount:openshift-user-workload-monitoring:alertmanager-user-workload"
+              "system:serviceaccount:openshift-user-workload-monitoring:alertmanager-user-workload",
+              "system:serviceaccount:openshift-monitoring:alertmanager-main"
             ]
           }
         }

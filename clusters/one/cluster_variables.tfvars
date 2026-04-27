@@ -42,6 +42,11 @@ properties = {
 infrastructureGitPath = "nonprod/one/infrastructure.yaml"
 namespaceGitPath      = "nonprod/one"
 
+sns_endpoint_subscription = [
+  "abavage@redhat.com",
+  "abavage@gmail.com"
+]
+
 
 gitopsOperatorChartVersion = "0.0.4"
 

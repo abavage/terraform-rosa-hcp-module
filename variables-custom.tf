@@ -68,6 +68,12 @@ variable "namespaceGitPath" {
   description = "The path to where the cluster will source it helm variables for namespaces"
 }
 
+variable "sns_endpoint_subscription" {
+  type = list(string)
+  default = null
+  description = "Email alias that is subscribed to the SNS endpoint"
+}
+
 variable "gitRepoUserName" {
   type = string
   default = null
