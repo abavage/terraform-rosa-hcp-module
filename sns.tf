@@ -13,9 +13,11 @@ resource "aws_sns_topic" "monitoring_sns_topic" {
 }
 
 resource "aws_sns_topic_subscription" "monitoring_sns_topic_subscription" {
+  for_each = toset(var.sns_endpoint_subscription)
+
   topic_arn = aws_sns_topic.monitoring_sns_topic.arn
   protocol  = "email"
-  endpoint  = "var.sns_endpoint_subscription"
+  endpoint  = each.value
 }
 
 resource "aws_iam_policy" "rosa_monitoring_sns_policy" {
