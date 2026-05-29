@@ -19,6 +19,11 @@ variable "openshift_version" {
   type        = string
   description = "Desired version of OpenShift for the cluster, for example '4.1.0'. If version is greater than the currently running version, an upgrade will be scheduled."
 }
+variable "version_channel_group" {
+  type        = string
+  default     = "stable"
+  description = "Desired channel group of the version [stable, candidate, fast, nightly]."
+}
 
 variable "oidc_config_id" {
   type        = string

@@ -41,6 +41,7 @@ module "rosa_cluster_hcp" {
   #operator_role_prefix     = var.cluster_name
   operator_role_prefix = module.operator_roles.operator_role_prefix
   openshift_version    = var.openshift_version
+  version_channel_group = var.version_channel_group
   installer_role_arn   = module.account_iam_resources.account_roles_arn["HCP-ROSA-Installer"]
   support_role_arn     = module.account_iam_resources.account_roles_arn["HCP-ROSA-Support"]
   worker_role_arn      = module.account_iam_resources.account_roles_arn["HCP-ROSA-Worker"]

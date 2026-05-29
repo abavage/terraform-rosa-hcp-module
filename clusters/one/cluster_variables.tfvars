@@ -1,24 +1,26 @@
 cluster_name        = "one"
 #openshift_version   = "4.19.6"
 #openshift_version   = "4.17.43" # cenitex
-openshift_version     = "4.18.36" # cenitex
-#openshift_version    = "4.19.27"
-#openshift_version     = "4.20.17"
+#
+#openshift_version     = "4.18.36" # cenitex
+#openshift_version    = "4.18.40"
+openshift_version    = "4.19.31"
+
 
 #upgrade_acknowledgements_for = "4.18"
-#upgrade_acknowledgements_for = "4.19"
+upgrade_acknowledgements_for = "4.19"
 #upgrade_acknowledgements_for = "4.20"
 
 aws_region          = "ap-southeast-2"
 
 private_aws_subnet_ids = [
-  "subnet-0cec2459bd4c18e1e",
-  "subnet-004f035adfcd169c8",
-  "subnet-0a1d261c2eb7df106"
+  "subnet-0c5c91978dfd97093",
+  "subnet-00097b5a895ee2091",
+  "subnet-062d0e9fb538e8afe"
 ]
 
 public_aws_subnet_ids = [
-  "subnet-04ca9066340797c54"
+  "subnet-0aec48731bb081b91"
 ]
 
 aws_private_subnet_cidrs = [
@@ -102,7 +104,7 @@ machine_pools = {
 
     openshift_version      = "4.18.36"
     #openshift_version   = "4.17.15" cenitex
-    subnet_id              = "subnet-0cec2459bd4c18e1e"
+    subnet_id              = "subnet-0c5c91978dfd97093"
     ignore_deletion_error  = true
     kubelet_configs        = "custom-kubelet"
   }
