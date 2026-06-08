@@ -50,4 +50,7 @@ EOT
   depends_on = [
     module.rosa_cluster_hcp
   ]
+  triggers = {
+    always_run = timestamp()
+  }
 }

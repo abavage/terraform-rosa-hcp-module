@@ -4,23 +4,24 @@ cluster_name        = "one"
 #
 #openshift_version     = "4.18.36" # cenitex
 #openshift_version    = "4.18.40"
-openshift_version    = "4.19.31"
-
+#openshift_version    = "4.19.31"
+#openshift_version    = "4.20.22"
+openshift_version     = "4.21.10"
 
 #upgrade_acknowledgements_for = "4.18"
-upgrade_acknowledgements_for = "4.19"
-#upgrade_acknowledgements_for = "4.20"
+#upgrade_acknowledgements_for = "4.19"
+upgrade_acknowledgements_for = "4.20"
 
 aws_region          = "ap-southeast-2"
 
 private_aws_subnet_ids = [
-  "subnet-0c5c91978dfd97093",
-  "subnet-00097b5a895ee2091",
-  "subnet-062d0e9fb538e8afe"
+  "subnet-09d78b4dabfae3d73",
+  "subnet-09b060ef24c6b21da",
+  "subnet-029b809d1f68240c9"
 ]
 
 public_aws_subnet_ids = [
-  "subnet-0aec48731bb081b91"
+  "subnet-00930e412b810e261"
 ]
 
 aws_private_subnet_cidrs = [
@@ -54,7 +55,7 @@ gitopsOperatorChartVersion = "0.0.4"
 
 gitops_bootstrap = {
   gitopsStartingCsv = "openshift-gitops-operator.v1.20.1"
-  gitopsOperatorBootstrapChartVersion = "0.0.21"
+  gitopsOperatorBootstrapChartVersion = "0.0.23"
   appOfAppsVersion = "0.0.3"
   namespacesChartVersion = "0.0.4"
 }
@@ -65,7 +66,7 @@ replicas             = 3
 compute_machine_type = "m5.xlarge"
 
 default_workers_min_replicas = 1
-default_workers_max_replicas = 1
+default_workers_max_replicas = 2
 
 default_workers_labels = {
   "k8s.ovn.org/egress-assignable" = ""
@@ -77,7 +78,7 @@ service_cidr = "172.30.0.0/16"
 pod_cidr     = "10.128.0.0/14"
 host_prefix  = 23
 
-autoscaler_max_nodes_total = 3
+autoscaler_max_nodes_total = 10
 
 machine_pools = {
   "pool-01" = {
@@ -87,6 +88,7 @@ machine_pools = {
       instance_type                 = "m5.xlarge"
       tags                          = {}
       additional_security_group_ids = null
+      node_drain_grace_period       = 10 
     }
 
     auto_repair = true
@@ -102,9 +104,9 @@ machine_pools = {
       max_replicas = 2
     }
 
-    openshift_version      = "4.18.36"
+    openshift_version      = "4.21.10"
     #openshift_version   = "4.17.15" cenitex
-    subnet_id              = "subnet-0c5c91978dfd97093"
+    subnet_id              = "subnet-029b809d1f68240c9"
     ignore_deletion_error  = true
     kubelet_configs        = "custom-kubelet"
   }
