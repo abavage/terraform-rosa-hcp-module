@@ -233,6 +233,36 @@ resource "random_string" "random" {
 
 
 
+module "cluster_logs_cloudwatch" {
+  source = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/log-forwarder"
+
+  cluster_id = module.rosa_cluster_hcp.cluster_id
+  cloudwatch = {
+    log_group_name            = "/${var.cluster_name}/controlplane"
+    log_distribution_role_arn = aws_iam_role.dedicated_logging_cloudwatch_policy.arn
+  }
+
+ groups = [
+    { 
+      id = "api"
+      },
+    {
+      id = "authentication"
+      },
+    {
+      id = "scheduler"
+    },
+    {
+      id = "controller manager"
+      }
+  ]
+  depends_on = [ 
+    module.rosa_cluster_hcp
+   ]
+}
+
+
+
 ## PLan text secret bi key/value at all manually created
 #data "aws_secretsmanager_secret_version" "credentials" {
 #  secret_id = "cert3"

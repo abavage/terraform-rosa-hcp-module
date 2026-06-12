@@ -15,13 +15,15 @@ upgrade_acknowledgements_for = "4.20"
 aws_region          = "ap-southeast-2"
 
 private_aws_subnet_ids = [
-  "subnet-09d78b4dabfae3d73",
-  "subnet-09b060ef24c6b21da",
-  "subnet-029b809d1f68240c9"
+  "subnet-0f20cdd1413aa8bca",
+  "subnet-0fb2cd631df0027e2",
+  "subnet-0449232b208c260b8"
 ]
 
+
+
 public_aws_subnet_ids = [
-  "subnet-00930e412b810e261"
+  "subnet-042fd086f8a94beb7"
 ]
 
 aws_private_subnet_cidrs = [
@@ -106,7 +108,7 @@ machine_pools = {
 
     openshift_version      = "4.21.10"
     #openshift_version   = "4.17.15" cenitex
-    subnet_id              = "subnet-029b809d1f68240c9"
+    subnet_id              = "subnet-0449232b208c260b8"
     ignore_deletion_error  = true
     kubelet_configs        = "custom-kubelet"
   }

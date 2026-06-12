@@ -76,3 +76,58 @@ resource "shell_script" "enable_siem_logging" {
   ]
 
 }
+
+
+
+
+
+## dedicated logging
+
+resource "aws_iam_policy" "dedicated_logging_cloudwatch_policy" {
+  name        = "${var.cluster_name}-dedicated-logging-cloudwatch-policy"
+  path        = "/"
+  description = "dedicated-logging-cloudwatch-policy"
+
+  policy = jsonencode({
+    Version : "2012-10-17",
+    Statement : [
+      {
+        Effect : "Allow",
+        Action : [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:DescribeLogGroups",
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents",
+          "logs:PutRetentionPolicy"
+        ],
+        Resource : "arn:aws:logs:*:*:*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role" "dedicated_logging_cloudwatch_policy" {
+  name = "CustomerLogDistribution-${var.cluster_name}-dedicated-logging-cloudwatch-role"
+
+  assume_role_policy = jsonencode({
+    Version : "2012-10-17",
+    Statement : [
+      {
+        Effect : "Allow",
+        Principal : {
+          "AWS": "arn:aws:iam::859037107838:role/ROSA-CentralLogDistributionRole-241c1a86"
+        },
+        Action : "sts:AssumeRole",
+        Condition : {
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "dedicated_logging_cloudwatch_policy_attach_role" {
+  role       = aws_iam_role.dedicated_logging_cloudwatch_policy.name
+  policy_arn = aws_iam_policy.dedicated_logging_cloudwatch_policy.arn
+}
+
