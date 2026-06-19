@@ -107,6 +107,12 @@ module "rosa_cluster_hcp" {
   autoscaler_max_node_provision_time = var.autoscaler_max_node_provision_time
   autoscaler_max_nodes_total         = var.autoscaler_max_nodes_total
 
+  #############
+  # Autonode - karpenter
+  #############
+
+
+
   ##################
   # default_ingress 
   ##################
@@ -208,8 +214,10 @@ resource "aws_ec2_tag" "tag_private_subnets" {
   count       = length(var.private_aws_subnet_ids)
   resource_id = var.private_aws_subnet_ids[count.index]
   key         = "kubernetes.io/role/internal-elb"
-  value       = ""
+  value       = "1"
 }
+
+
 
 # add this as a private cluster still has the check enabled for this policy added to the role.
 # The managed policy is correct.
@@ -242,20 +250,9 @@ module "cluster_logs_cloudwatch" {
     log_distribution_role_arn = aws_iam_role.dedicated_logging_cloudwatch_policy.arn
   }
 
- groups = [
-    { 
-      id = "api"
-      },
-    {
-      id = "authentication"
-      },
-    {
-      id = "scheduler"
-    },
-    {
-      id = "controller manager"
-      }
-  ]
+  groups = local.cloudwatch_log_forwarder_groups
+  applications = var.control_plane_log_cloudwatch_applications
+ 
   depends_on = [ 
     module.rosa_cluster_hcp
    ]

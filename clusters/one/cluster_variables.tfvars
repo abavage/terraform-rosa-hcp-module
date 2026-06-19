@@ -6,24 +6,25 @@ cluster_name        = "one"
 #openshift_version    = "4.18.40"
 #openshift_version    = "4.19.31"
 #openshift_version    = "4.20.22"
-openshift_version     = "4.21.10"
+#openshift_version     = "4.21.14"
+openshift_version     = "4.22.0"
 
 #upgrade_acknowledgements_for = "4.18"
 #upgrade_acknowledgements_for = "4.19"
-upgrade_acknowledgements_for = "4.20"
+#upgrade_acknowledgements_for = "4.20"
 
 aws_region          = "ap-southeast-2"
 
 private_aws_subnet_ids = [
-  "subnet-0f20cdd1413aa8bca",
-  "subnet-0fb2cd631df0027e2",
-  "subnet-0449232b208c260b8"
+  "subnet-049876fb31f8b542e",
+  "subnet-0983e09d6dfc3ab46",
+  "subnet-05b554103bd3e4145"
 ]
 
 
 
 public_aws_subnet_ids = [
-  "subnet-042fd086f8a94beb7"
+  "subnet-0047a9b13fe4b1d2f"
 ]
 
 aws_private_subnet_cidrs = [
@@ -82,34 +83,38 @@ host_prefix  = 23
 
 autoscaler_max_nodes_total = 10
 
-machine_pools = {
-  "pool-01" = {
-    name = "pool-01"
+control_plane_log_cloudwatch_groups = ["api", "authentication", "controller manager", "scheduler"]
+control_plane_log_cloudwatch_applications   = ["certified-operators-catalog", "cluster-api", "community-operators-catalog", "etcd", "private-router", "redhat-marketplace-catalog", "redhat-operators-catalog"]
 
-    aws_node_pool = {
-      instance_type                 = "m5.xlarge"
-      tags                          = {}
-      additional_security_group_ids = null
-      node_drain_grace_period       = 10 
-    }
 
-    auto_repair = true
+#machine_pools = {
+#  "pool-01" = {
+#    name = "pool-01"
 
-    labels = {
-      "k8s.ovn.org/egress-assignable" = ""
-      clustername                    = "one"
-    }
+#    aws_node_pool = {
+#      instance_type                 = "m5.xlarge"
+#      tags                          = {}
+#      additional_security_group_ids = null
+#      node_drain_grace_period       = 10 
+#    }
 
-    autoscaling = {
-      enabled      = true
-      min_replicas = 0
-      max_replicas = 2
-    }
+#    auto_repair = true
 
-    openshift_version      = "4.21.10"
+#    labels = {
+#      "k8s.ovn.org/egress-assignable" = ""
+#      clustername                    = "one"
+#    }
+
+#    autoscaling = {
+#      enabled      = true
+#      min_replicas = 0
+#      max_replicas = 2
+#    }
+
+#    openshift_version      = "4.21.14"
     #openshift_version   = "4.17.15" cenitex
-    subnet_id              = "subnet-0449232b208c260b8"
-    ignore_deletion_error  = true
-    kubelet_configs        = "custom-kubelet"
-  }
-}
+#    subnet_id              = "subnet-0449232b208c260b8"
+#    ignore_deletion_error  = true
+#    kubelet_configs        = "custom-kubelet"
+#  }
+#}

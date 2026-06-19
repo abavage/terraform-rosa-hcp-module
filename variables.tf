@@ -467,3 +467,27 @@ variable "openid_idp_issuer" {
   default     = null
   description = "The URL that the OpenID Provider asserts as the Issuer Identifier. It must use the https scheme with no URL query parameters or fragment (required). Valid only to OpenID Identity Provider (idp_type=openid)"
 }
+
+variable "control_plane_log_cloudwatch_groups" {
+  description = "List of log groups to forward to CloudWatch. Valid values: api, authentication, controller manager, scheduler (case-insensitive)."
+  type        = list(string)
+  default     = ["api", "authentication", "controller manager", "scheduler"]
+  nullable    = false
+
+  validation {
+    condition = alltrue([
+      for group in var.control_plane_log_cloudwatch_groups : contains([
+        "api", "authentication", "controller manager", "scheduler",
+        "API", "Authentication", "Controller Manager", "Scheduler"
+      ], group)
+    ])
+    error_message = "Log groups must be one of: api, authentication, controller manager, scheduler (case-insensitive)."
+  }
+}
+
+variable "control_plane_log_cloudwatch_applications" {
+  description = "Optional list of specific applications to forward to CloudWatch. If empty, forwards all applications for the selected log groups."
+  type        = list(string)
+  default     = ["certified-operators-catalog", "cluster-api", "community-operators-catalog", "etcd", "private-router", "redhat-marketplace-catalog", "redhat-operators-catalog"]
+  nullable    = false
+}

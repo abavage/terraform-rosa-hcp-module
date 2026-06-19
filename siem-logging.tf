@@ -1,5 +1,5 @@
-resource "aws_iam_policy" "siem_logging_cloudwatch_policy" {
-  name        = "${var.cluster_name}-siem-logging-cloudwatch-policy"
+resource "aws_iam_policy" "logging_cloudwatch_policy" {
+  name        = "${var.cluster_name}-logging-cloudwatch-policy"
   path        = "/"
   description = "siem-logging-cloudwatch-policy"
 
@@ -22,8 +22,8 @@ resource "aws_iam_policy" "siem_logging_cloudwatch_policy" {
   })
 }
 
-resource "aws_iam_role" "siem_logging_cloudwatch_policy" {
-  name = "${var.cluster_name}-siem-logging-cloudwatch-role"
+resource "aws_iam_role" "logging_cloudwatch_policy" {
+  name = "${var.cluster_name}-logging-cloudwatch-role"
 
   assume_role_policy = jsonencode({
     Version : "2012-10-17",
@@ -48,18 +48,18 @@ resource "aws_iam_role" "siem_logging_cloudwatch_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "seim_logging_cloudwatch_policy_attach_role" {
-  role       = aws_iam_role.siem_logging_cloudwatch_policy.name
-  policy_arn = aws_iam_policy.siem_logging_cloudwatch_policy.arn
+  role       = aws_iam_role.logging_cloudwatch_policy.name
+  policy_arn = aws_iam_policy.logging_cloudwatch_policy.arn
 }
 
-resource "shell_script" "enable_siem_logging" {
+resource "shell_script" "enable_logging" {
   lifecycle_commands {
     create = "${path.module}/scripts/siem-logging.sh"
     delete = "${path.module}/scripts/no-operation-delete.sh"
   }
 
   environment = {
-    siem_role_arn = local.cloudwatch_siem_role_iam_arn
+    logging_role_arn = local.cloudwatch_role_iam_arn
     cluster       = var.cluster_name
   }
 
@@ -76,9 +76,6 @@ resource "shell_script" "enable_siem_logging" {
   ]
 
 }
-
-
-
 
 
 ## dedicated logging

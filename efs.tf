@@ -99,21 +99,11 @@ resource "aws_efs_file_system" "rosa_efs" {
   ]
 }
 
-data "aws_security_groups" "selected" {
-  filter {
-    name   = "tag:Name"
-    values = ["${one(module.rosa_cluster_hcp[*].cluster_id)}-default-sg"]
-  }
-  depends_on = [
-    module.rosa_cluster_hcp
-  ]
-}
-
 # update the default sec group for the default machine pool nodes using a data lookup
 resource "aws_vpc_security_group_ingress_rule" "enable_efs" {
   for_each = toset(var.aws_private_subnet_cidrs)
 
-  security_group_id = data.aws_security_groups.selected.ids[0]
+  security_group_id = data.aws_security_group.selected.id
   cidr_ipv4         = each.value
   from_port         = 2049
   ip_protocol       = "tcp"
@@ -134,7 +124,7 @@ resource "aws_efs_mount_target" "efs_mount_worker" {
 
   file_system_id  = aws_efs_file_system.rosa_efs.id
   subnet_id       = each.value
-  security_groups = [data.aws_security_groups.selected.ids[0]]
+  security_groups = [data.aws_security_group.selected.id]
   lifecycle {
     ignore_changes = [
       security_groups
