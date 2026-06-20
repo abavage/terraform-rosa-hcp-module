@@ -17,7 +17,7 @@ resource "aws_secretsmanager_secret" "test_app_secrets" {
 resource "aws_secretsmanager_secret_version" "test_app" {
   secret_id = aws_secretsmanager_secret.test_app_secrets.id
   secret_string = jsonencode({
-    rosa_api_token    = var.RHCS_TOKEN
+    rosa_api_token = var.RHCS_TOKEN
   })
   depends_on = [
     aws_secretsmanager_secret.test_app_secrets
@@ -32,8 +32,8 @@ resource "aws_iam_policy" "external_secret_store_policy_test_app" {
   description = "External Secret Store test-app"
 
   policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
         "Action" : [
           "secretsmanager:ListSecrets",
@@ -43,14 +43,14 @@ resource "aws_iam_policy" "external_secret_store_policy_test_app" {
         "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "secretsmanager:GetResourcePolicy",
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret",
           "secretsmanager:ListSecretVersionIds"
         ],
-        "Resource": [
+        "Resource" : [
           "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${var.cluster_name}-test-app-secrets*"
         ]
       }

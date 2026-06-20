@@ -7,7 +7,7 @@ resource "aws_iam_policy" "logging_cloudwatch_policy" {
     Version : "2012-10-17",
     Statement : [
       {
-        "Sid": "allCWloggingOptions",
+        "Sid" : "allCWloggingOptions",
         Effect : "Allow",
         Action : [
           "logs:CreateLogGroup",
@@ -20,13 +20,13 @@ resource "aws_iam_policy" "logging_cloudwatch_policy" {
         Resource : "arn:aws:logs:*:*:*"
       },
       {
-        "Sid": "additionalforCWagent",
-        "Effect": "Allow",
-        "Action": [
-            "ec2:DescribeTags",
-            "ec2:DescribeVolumes"
+        "Sid" : "additionalforCWagent",
+        "Effect" : "Allow",
+        "Action" : [
+          "ec2:DescribeTags",
+          "ec2:DescribeVolumes"
         ],
-        "Resource": "*"
+        "Resource" : "*"
       }
     ]
   })
@@ -71,11 +71,11 @@ resource "shell_script" "enable_logging" {
 
   environment = {
     logging_role_arn = local.cloudwatch_role_iam_arn
-    cluster       = var.cluster_name
+    cluster          = var.cluster_name
   }
 
   sensitive_environment = {
-    token         = var.RHCS_TOKEN
+    token = var.RHCS_TOKEN
   }
 
   #triggers = {
@@ -124,7 +124,7 @@ resource "aws_iam_role" "cluster_log_forwarder_cloudwatch_role" {
       {
         Effect : "Allow",
         Principal : {
-          "AWS": "arn:aws:iam::859037107838:role/ROSA-CentralLogDistributionRole-241c1a86"
+          "AWS" : "arn:aws:iam::859037107838:role/ROSA-CentralLogDistributionRole-241c1a86"
         },
         Action : "sts:AssumeRole",
         Condition : {

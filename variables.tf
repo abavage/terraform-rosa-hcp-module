@@ -400,7 +400,7 @@ variable "htpasswd_idp_users" {
     username = string
     password = string
   }))
-  default     = null
+  default = null
 }
 
 ##############################################################

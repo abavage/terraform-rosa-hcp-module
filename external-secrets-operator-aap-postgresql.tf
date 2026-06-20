@@ -18,13 +18,13 @@ resource "aws_secretsmanager_secret" "aap_postgresql_database" {
 resource "aws_secretsmanager_secret_version" "aap_postgresql_database" {
   secret_id = aws_secretsmanager_secret.aap_postgresql_database.id
   secret_string = jsonencode({
-    host              = var.postgresql_host,
-    port              = var.postgresql_port,
-    database          = var.postgresql_database,
-    username          = var.postgresql_username,
-    password          = var.postgresql_password,
-    sslmode           = var.postgresql_sslmode,
-    type              = var.postgresql_type
+    host     = var.postgresql_host,
+    port     = var.postgresql_port,
+    database = var.postgresql_database,
+    username = var.postgresql_username,
+    password = var.postgresql_password,
+    sslmode  = var.postgresql_sslmode,
+    type     = var.postgresql_type
   })
   depends_on = [
     aws_secretsmanager_secret.aap_postgresql_database
@@ -39,8 +39,8 @@ resource "aws_iam_policy" "aap_postgresql_database" {
   description = "External Secret Store aap-postgresql-database"
 
   policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
         "Action" : [
           "secretsmanager:ListSecrets",
@@ -50,14 +50,14 @@ resource "aws_iam_policy" "aap_postgresql_database" {
         "Resource" : "*"
       },
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "secretsmanager:GetResourcePolicy",
           "secretsmanager:GetSecretValue",
           "secretsmanager:DescribeSecret",
           "secretsmanager:ListSecretVersionIds"
         ],
-        "Resource": [
+        "Resource" : [
           "arn:aws:secretsmanager:${var.aws_region}:${data.aws_caller_identity.current.account_id}:secret:${var.cluster_name}-aap-postgresql-database*"
         ]
       }

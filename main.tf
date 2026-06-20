@@ -39,31 +39,31 @@ module "rosa_cluster_hcp" {
 
   cluster_name = var.cluster_name
   #operator_role_prefix     = var.cluster_name
-  operator_role_prefix = module.operator_roles.operator_role_prefix
-  openshift_version    = var.openshift_version
+  operator_role_prefix  = module.operator_roles.operator_role_prefix
+  openshift_version     = var.openshift_version
   version_channel_group = var.version_channel_group
-  installer_role_arn   = module.account_iam_resources.account_roles_arn["HCP-ROSA-Installer"]
-  support_role_arn     = module.account_iam_resources.account_roles_arn["HCP-ROSA-Support"]
-  worker_role_arn      = module.account_iam_resources.account_roles_arn["HCP-ROSA-Worker"]
-  oidc_config_id       = module.oidc_config_and_provider.oidc_config_id
+  installer_role_arn    = module.account_iam_resources.account_roles_arn["HCP-ROSA-Installer"]
+  support_role_arn      = module.account_iam_resources.account_roles_arn["HCP-ROSA-Support"]
+  worker_role_arn       = module.account_iam_resources.account_roles_arn["HCP-ROSA-Worker"]
+  oidc_config_id        = module.oidc_config_and_provider.oidc_config_id
   #aws_subnet_ids       = local.rosa_aws_subnet_ids
-  aws_subnet_ids       = concat(var.private_aws_subnet_ids, var.public_aws_subnet_ids)
+  aws_subnet_ids = concat(var.private_aws_subnet_ids, var.public_aws_subnet_ids)
   #aws_subnet_ids       = var.private_aws_subnet_ids
-  machine_cidr         = var.machine_cidr
-  service_cidr         = var.service_cidr
-  pod_cidr             = var.pod_cidr
-  host_prefix          = var.host_prefix
-  private              = var.private
-  tags                 = local.tags
-  properties           = var.properties
-  etcd_encryption      = var.etcd_encryption
+  machine_cidr    = var.machine_cidr
+  service_cidr    = var.service_cidr
+  pod_cidr        = var.pod_cidr
+  host_prefix     = var.host_prefix
+  private         = var.private
+  tags            = local.tags
+  properties      = var.properties
+  etcd_encryption = var.etcd_encryption
   #etcd_kms_key_arn         = var.etcd_kms_key_arn
-  etcd_kms_key_arn     = resource.aws_kms_key.etcd.arn
+  etcd_kms_key_arn = resource.aws_kms_key.etcd.arn
   #kms_key_arn              = var.kms_key_arn
   kms_key_arn              = resource.aws_kms_key.ebs.arn
   aws_billing_account_id   = "604574367752"
   ec2_metadata_http_tokens = var.ec2_metadata_http_tokens
-  domain_prefix        = var.domain_prefix
+  domain_prefix            = var.domain_prefix
 
   ########
   # Cluster Admin User
@@ -158,34 +158,34 @@ module "rhcs_identity_provider" {
   source   = "git::https://github.com/terraform-redhat/terraform-rhcs-rosa-hcp.git//modules/idp"
   for_each = local.identity_providers
 
-  cluster_id                            = module.rosa_cluster_hcp.cluster_id
-  name                                  = each.value.name
-  idp_type                              = each.value.idp_type
-  mapping_method                        = try(each.value.mapping_method, null)
-#  github_idp_client_id                  = try(each.value.github_idp_client_id, null)
-#  github_idp_client_secret              = try(each.value.github_idp_client_secret, null)
-#  github_idp_ca                         = try(each.value.github_idp_ca, null)
-#  github_idp_hostname                   = try(each.value.github_idp_hostname, null)
-#  github_idp_organizations              = try(jsondecode(each.value.github_idp_organizations), null)
-#  github_idp_teams                      = try(jsondecode(each.value.github_idp_teams), null)
-#  gitlab_idp_client_id                  = try(each.value.gitlab_idp_client_id, null)
-#  gitlab_idp_client_secret              = try(each.value.gitlab_idp_client_secret, null)
-#  gitlab_idp_url                        = try(each.value.gitlab_idp_url, null)
-#  gitlab_idp_ca                         = try(each.value.gitlab_idp_ca, null)
-#  google_idp_client_id                  = try(each.value.google_idp_client_id, null)
-#  google_idp_client_secret              = try(each.value.google_idp_client_secret, null)
-#  google_idp_hosted_domain              = try(each.value.google_idp_hosted_domain, null)
-# htpasswd_idp_users                    = try(jsondecode(each.value.htpasswd_idp_users), null)
-  htpasswd_idp_users                    = try(each.value.htpasswd_idp_users, null)
-#  ldap_idp_bind_dn                      = try(each.value.ldap_idp_bind_dn, null)
-#  ldap_idp_bind_password                = try(each.value.ldap_idp_bind_password, null)
-#  ldap_idp_ca                           = try(each.value.ldap_idp_ca, null)
-#  ldap_idp_insecure                     = try(each.value.ldap_idp_insecure, null)
-#  ldap_idp_url                          = try(each.value.ldap_idp_url, null)
-#  ldap_idp_emails                       = try(jsondecode(each.value.ldap_idp_emails), null)
-#  ldap_idp_ids                          = try(jsondecode(each.value.ldap_idp_ids), null)
-#  ldap_idp_names                        = try(jsondecode(each.value.ldap_idp_names), null)
-#  ldap_idp_preferred_usernames          = try(jsondecode(each.value.ldap_idp_preferred_usernames), null)
+  cluster_id     = module.rosa_cluster_hcp.cluster_id
+  name           = each.value.name
+  idp_type       = each.value.idp_type
+  mapping_method = try(each.value.mapping_method, null)
+  #  github_idp_client_id                  = try(each.value.github_idp_client_id, null)
+  #  github_idp_client_secret              = try(each.value.github_idp_client_secret, null)
+  #  github_idp_ca                         = try(each.value.github_idp_ca, null)
+  #  github_idp_hostname                   = try(each.value.github_idp_hostname, null)
+  #  github_idp_organizations              = try(jsondecode(each.value.github_idp_organizations), null)
+  #  github_idp_teams                      = try(jsondecode(each.value.github_idp_teams), null)
+  #  gitlab_idp_client_id                  = try(each.value.gitlab_idp_client_id, null)
+  #  gitlab_idp_client_secret              = try(each.value.gitlab_idp_client_secret, null)
+  #  gitlab_idp_url                        = try(each.value.gitlab_idp_url, null)
+  #  gitlab_idp_ca                         = try(each.value.gitlab_idp_ca, null)
+  #  google_idp_client_id                  = try(each.value.google_idp_client_id, null)
+  #  google_idp_client_secret              = try(each.value.google_idp_client_secret, null)
+  #  google_idp_hosted_domain              = try(each.value.google_idp_hosted_domain, null)
+  # htpasswd_idp_users                    = try(jsondecode(each.value.htpasswd_idp_users), null)
+  htpasswd_idp_users = try(each.value.htpasswd_idp_users, null)
+  #  ldap_idp_bind_dn                      = try(each.value.ldap_idp_bind_dn, null)
+  #  ldap_idp_bind_password                = try(each.value.ldap_idp_bind_password, null)
+  #  ldap_idp_ca                           = try(each.value.ldap_idp_ca, null)
+  #  ldap_idp_insecure                     = try(each.value.ldap_idp_insecure, null)
+  #  ldap_idp_url                          = try(each.value.ldap_idp_url, null)
+  #  ldap_idp_emails                       = try(jsondecode(each.value.ldap_idp_emails), null)
+  #  ldap_idp_ids                          = try(jsondecode(each.value.ldap_idp_ids), null)
+  #  ldap_idp_names                        = try(jsondecode(each.value.ldap_idp_names), null)
+  #  ldap_idp_preferred_usernames          = try(jsondecode(each.value.ldap_idp_preferred_usernames), null)
   openid_idp_ca                         = try(each.value.openid_idp_ca, null)
   openid_idp_claims_email               = try(each.value.openid_idp_claims_email, null)
   openid_idp_claims_groups              = try(each.value.openid_idp_claims_groups, null)
@@ -250,10 +250,10 @@ module "cluster_logs_cloudwatch" {
     log_distribution_role_arn = aws_iam_role.cluster_log_forwarder_cloudwatch_role.arn
   }
 
-  groups = local.cloudwatch_log_forwarder_groups
+  groups       = local.cloudwatch_log_forwarder_groups
   applications = var.control_plane_log_cloudwatch_applications
- 
-  depends_on = [ 
+
+  depends_on = [
     module.rosa_cluster_hcp
-   ]
+  ]
 }

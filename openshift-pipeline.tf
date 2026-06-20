@@ -1,9 +1,9 @@
 resource "aws_s3_bucket" "openshift_pipeline_image_builds" {
-  bucket = "${var.cluster_name}-openshift-pipeline-image-builds"
+  bucket        = "${var.cluster_name}-openshift-pipeline-image-builds"
   force_destroy = true
 
   tags = {
-    Name        = "${var.cluster_name}-openshift-pipeline-image-builds"
+    Name = "${var.cluster_name}-openshift-pipeline-image-builds"
   }
 }
 
@@ -19,15 +19,15 @@ resource "aws_iam_policy" "openshift_pipeline_image_builds" {
       {
         Effect = "Allow"
         Action = [
-            "s3:ListBucket",
-            "s3:GetObject",
-            "s3:DeleteObject",
-            "s3:PutObject",
-            "s3:PutObjectAcl"
+          "s3:ListBucket",
+          "s3:GetObject",
+          "s3:DeleteObject",
+          "s3:PutObject",
+          "s3:PutObjectAcl"
         ]
         Resource = [
-            "arn:aws:s3:::${var.cluster_name}-openshift-pipeline-image-builds/*",
-            "arn:aws:s3:::${var.cluster_name}-openshift-pipeline-image-builds"
+          "arn:aws:s3:::${var.cluster_name}-openshift-pipeline-image-builds/*",
+          "arn:aws:s3:::${var.cluster_name}-openshift-pipeline-image-builds"
 
         ]
       }
@@ -55,7 +55,7 @@ resource "aws_iam_role" "openshift_pipeline_image_builds" {
         Condition = {
           StringEquals = {
             "${module.oidc_config_and_provider.oidc_endpoint_url}:sub" = [
-                "system:serviceaccount:image-builds:pipeline"
+              "system:serviceaccount:image-builds:pipeline"
             ]
           }
         }

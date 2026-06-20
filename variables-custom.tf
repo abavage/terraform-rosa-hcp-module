@@ -43,87 +43,87 @@ variable "gitops_bootstrap" {
   type        = map(string)
   description = "Variables passed into the gitops helm charts"
   default = {
-    gitopsStartingCsv  = null
-    gitopsOperatorBootstrapChartVersion  = ""
-    appOfAppsVersion = ""
-    namespacesChartVersion = ""
+    gitopsStartingCsv                   = null
+    gitopsOperatorBootstrapChartVersion = ""
+    appOfAppsVersion                    = ""
+    namespacesChartVersion              = ""
   }
 }
 
 variable "gitopsOperatorChartVersion" {
-  type = string
-  default = null
+  type        = string
+  default     = null
   description = "Helm version of for the gitops-operator helm chart"
 }
 
 variable "infrastructureGitPath" {
-  type = string
-  default = ""
+  type        = string
+  default     = ""
   description = "The path to where the cluster will source it helm variables for infrastructure"
 }
 
 variable "namespaceGitPath" {
-  type = string
-  default = ""
+  type        = string
+  default     = ""
   description = "The path to where the cluster will source it helm variables for namespaces"
 }
 
 variable "sns_endpoint_subscription" {
-  type = list(string)
-  default = null
+  type        = list(string)
+  default     = null
   description = "Email alias that is subscribed to the SNS endpoint"
 }
 
 variable "gitRepoUserName" {
-  type = string
-  default = null
+  type        = string
+  default     = null
   description = "Username to access the authenticated github repo"
 }
 
 variable "gitRepoPasswd" {
-  type = string
-  default = null
+  type        = string
+  default     = null
   description = "Password to access the authenticated github repo"
 }
 
 variable "postgresql_host" {
-  type = string
-  default = null
+  type        = string
+  default     = null
   description = "postgresql host for the AAP database"
 }
 
 variable "postgresql_port" {
-  type = number
-  default = 5432
+  type        = number
+  default     = 5432
   description = "postgresql port for the AAP database"
 }
 
 variable "postgresql_database" {
-  type = string
-  default = null
+  type        = string
+  default     = null
   description = "postgresql AAP database name"
 }
 
 variable "postgresql_username" {
-  type = string
-  default = null
+  type        = string
+  default     = null
   description = "postgresql AAP database username"
 }
 
 variable "postgresql_password" {
-  type = string
-  default = null
+  type        = string
+  default     = null
   description = "postgresql AAP database password"
 }
 
 variable "postgresql_sslmode" {
-  type = string
-  default = "prefer"
+  type        = string
+  default     = "prefer"
   description = "postgresql AAP ssl mode"
 }
 
 variable "postgresql_type" {
-  type = string
-  default = "unmanaged"
+  type        = string
+  default     = "unmanaged"
   description = "postgresql AAP database type"
 }

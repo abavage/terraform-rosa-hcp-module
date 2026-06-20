@@ -2,12 +2,12 @@ terraform {
   required_version = ">= 1.0"
 
   backend "s3" {
-    use_lockfile   = true
+    use_lockfile = true
   }
 
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
+      source = "hashicorp/aws"
       #version = ">= 5.38.0"
       version = ">= 6.45.0"
     }

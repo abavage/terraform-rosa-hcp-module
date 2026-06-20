@@ -1,13 +1,13 @@
 resource "aws_sns_topic" "monitoring_sns_topic" {
-  name = "${var.cluster_name}-rosa-monitoring-sns-topic"
+  name         = "${var.cluster_name}-rosa-monitoring-sns-topic"
   display_name = "${var.cluster_name}-rosa-monitoring-sns-topic"
-  region = data.aws_region.current.region
+  region       = data.aws_region.current.region
 
   tags = merge(
     local.tags,
     {
       rosa-monitoring = "true",
-      type    = "email"
+      type            = "email"
     }
   )
 }

@@ -88,7 +88,7 @@ resource "aws_iam_role_policy_attachment" "rosa_efs_csi_role_iam_attachment" {
 }
 
 resource "aws_efs_file_system" "rosa_efs" {
-  encrypted = true
+  encrypted  = true
   kms_key_id = resource.aws_kms_key.efs.arn
   tags = {
     Name = "${var.cluster_name}-rosa-efs"

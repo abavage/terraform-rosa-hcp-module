@@ -1,9 +1,9 @@
 resource "aws_s3_bucket" "acm_observability" {
-  bucket = "${var.cluster_name}-acm-observability"
+  bucket        = "${var.cluster_name}-acm-observability"
   force_destroy = true
 
   tags = {
-    Name        = "${var.cluster_name}-acm-observability"
+    Name = "${var.cluster_name}-acm-observability"
   }
 }
 
@@ -19,17 +19,17 @@ resource "aws_iam_policy" "acm_observability" {
       {
         Effect = "Allow"
         Action = [
-            "s3:ListBucket",
-            "s3:GetObject",
-            "s3:DeleteObject",
-            "s3:PutObject",
-            "s3:PutObjectAcl",
-            "s3:CreateBucket",
-            "s3:DeleteBucket"
+          "s3:ListBucket",
+          "s3:GetObject",
+          "s3:DeleteObject",
+          "s3:PutObject",
+          "s3:PutObjectAcl",
+          "s3:CreateBucket",
+          "s3:DeleteBucket"
         ]
         Resource = [
-            "arn:aws:s3:::${var.cluster_name}-acm-observability/*",
-            "arn:aws:s3:::${var.cluster_name}-acm-observability"
+          "arn:aws:s3:::${var.cluster_name}-acm-observability/*",
+          "arn:aws:s3:::${var.cluster_name}-acm-observability"
 
         ]
       }
@@ -57,11 +57,11 @@ resource "aws_iam_role" "acm_observability" {
         Condition = {
           StringEquals = {
             "${module.oidc_config_and_provider.oidc_endpoint_url}:sub" = [
-                "system:serviceaccount:open-cluster-management-observability:observability-thanos-query",
-                "system:serviceaccount:open-cluster-management-observability:observability-thanos-store-shard",
-                "system:serviceaccount:open-cluster-management-observability:observability-thanos-compact",
-                "system:serviceaccount:open-cluster-management-observability:observability-thanos-rule",
-                "system:serviceaccount:open-cluster-management-observability:observability-thanos-receive"
+              "system:serviceaccount:open-cluster-management-observability:observability-thanos-query",
+              "system:serviceaccount:open-cluster-management-observability:observability-thanos-store-shard",
+              "system:serviceaccount:open-cluster-management-observability:observability-thanos-compact",
+              "system:serviceaccount:open-cluster-management-observability:observability-thanos-rule",
+              "system:serviceaccount:open-cluster-management-observability:observability-thanos-receive"
             ]
           }
         }

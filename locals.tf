@@ -44,25 +44,25 @@ locals {
       ]
     }
     openid-idp = {
-      name                                 = "openid-idp"
-      idp_type                             = "openid"
+      name     = "openid-idp"
+      idp_type = "openid"
       #openid_idp_ca                        = ""
-      openid_idp_claims_email             = ["email"] # email
+      openid_idp_claims_email = ["email"] # email
       #openid_idp_claims_groups            = ["groups"]
-      openid_idp_claims_name              = ["name"] # name
+      openid_idp_claims_name               = ["name"]               # name
       openid_idp_claims_preferred_username = ["preferred_username"] # preferred_username sAMAccountName
-      openid_idp_client_id                 = "123456789"     # replace with valid <client-id>
-      openid_idp_client_secret             = "123456789" # replace with valid <client-secret>
-      openid_idp_extra_scopes              = (["email","profile"])
+      openid_idp_client_id                 = "123456789"            # replace with valid <client-id>
+      openid_idp_client_secret             = "123456789"            # replace with valid <client-secret>
+      openid_idp_extra_scopes              = (["email", "profile"])
       #openid_idp_extra_authorize_parameters = ""
-      openid_idp_issuer                    = var.openid_idp_issuer
+      openid_idp_issuer = var.openid_idp_issuer
     }
   }
 
   # default is 4096 in rosa.
   kubelet_configs = {
     kubelet_config = {
-      name = "custom-kubelet"
+      name           = "custom-kubelet"
       pod_pids_limit = 8192
     }
   }
