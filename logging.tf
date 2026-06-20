@@ -7,6 +7,7 @@ resource "aws_iam_policy" "logging_cloudwatch_policy" {
     Version : "2012-10-17",
     Statement : [
       {
+        "Sid": "allCWloggingOptions",
         Effect : "Allow",
         Action : [
           "logs:CreateLogGroup",
@@ -17,6 +18,15 @@ resource "aws_iam_policy" "logging_cloudwatch_policy" {
           "logs:PutRetentionPolicy"
         ],
         Resource : "arn:aws:logs:*:*:*"
+      },
+      {
+        "Sid": "additionalforCWagent",
+        "Effect": "Allow",
+        "Action": [
+            "ec2:DescribeTags",
+            "ec2:DescribeVolumes"
+        ],
+        "Resource": "*"
       }
     ]
   })
@@ -38,7 +48,8 @@ resource "aws_iam_role" "logging_cloudwatch_policy" {
           StringEquals : {
             "${module.oidc_config_and_provider.oidc_endpoint_url}:sub" = [
               "system:serviceaccount:openshift-config-managed:cloudwatch-audit-exporter",
-              "system:serviceaccount:openshift-logging:logcollector"
+              "system:serviceaccount:openshift-logging:logcollector",
+              "system:serviceaccount:amazon-cloudwatch:cloudwatch-agent"
             ]
           }
         }
@@ -54,7 +65,7 @@ resource "aws_iam_role_policy_attachment" "seim_logging_cloudwatch_policy_attach
 
 resource "shell_script" "enable_logging" {
   lifecycle_commands {
-    create = "${path.module}/scripts/siem-logging.sh"
+    create = "${path.module}/scripts/logging.sh"
     delete = "${path.module}/scripts/no-operation-delete.sh"
   }
 
@@ -80,10 +91,10 @@ resource "shell_script" "enable_logging" {
 
 ## dedicated logging
 
-resource "aws_iam_policy" "dedicated_logging_cloudwatch_policy" {
-  name        = "${var.cluster_name}-dedicated-logging-cloudwatch-policy"
+resource "aws_iam_policy" "cluster_log_forwarder_cloudwatch_policy" {
+  name        = "${var.cluster_name}-cluster-log-forwarder-cloudwatch-policy"
   path        = "/"
-  description = "dedicated-logging-cloudwatch-policy"
+  description = "cluster-log-forwarder-cloudwatch-policy"
 
   policy = jsonencode({
     Version : "2012-10-17",
@@ -104,8 +115,8 @@ resource "aws_iam_policy" "dedicated_logging_cloudwatch_policy" {
   })
 }
 
-resource "aws_iam_role" "dedicated_logging_cloudwatch_policy" {
-  name = "CustomerLogDistribution-${var.cluster_name}-dedicated-logging-cloudwatch-role"
+resource "aws_iam_role" "cluster_log_forwarder_cloudwatch_role" {
+  name = "CustomerLogDistribution-${var.cluster_name}-cluster-log-forwarder-cloudwatch-role"
 
   assume_role_policy = jsonencode({
     Version : "2012-10-17",
@@ -123,8 +134,8 @@ resource "aws_iam_role" "dedicated_logging_cloudwatch_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "dedicated_logging_cloudwatch_policy_attach_role" {
-  role       = aws_iam_role.dedicated_logging_cloudwatch_policy.name
-  policy_arn = aws_iam_policy.dedicated_logging_cloudwatch_policy.arn
+resource "aws_iam_role_policy_attachment" "cluster_log_forwarder_cloudwatch_policy_attach_role" {
+  role       = aws_iam_role.cluster_log_forwarder_cloudwatch_role.name
+  policy_arn = aws_iam_policy.cluster_log_forwarder_cloudwatch_policy.arn
 }
 

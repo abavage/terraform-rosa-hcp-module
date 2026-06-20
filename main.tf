@@ -247,7 +247,7 @@ module "cluster_logs_cloudwatch" {
   cluster_id = module.rosa_cluster_hcp.cluster_id
   cloudwatch = {
     log_group_name            = "/${var.cluster_name}/controlplane"
-    log_distribution_role_arn = aws_iam_role.dedicated_logging_cloudwatch_policy.arn
+    log_distribution_role_arn = aws_iam_role.cluster_log_forwarder_cloudwatch_role.arn
   }
 
   groups = local.cloudwatch_log_forwarder_groups
@@ -257,14 +257,3 @@ module "cluster_logs_cloudwatch" {
     module.rosa_cluster_hcp
    ]
 }
-
-
-
-## PLan text secret bi key/value at all manually created
-#data "aws_secretsmanager_secret_version" "credentials" {
-#  secret_id = "cert3"
-#}
-
-#output "cert" {
-#  value = nonsensitive(data.aws_secretsmanager_secret_version.credentials.secret_string)
-#}
