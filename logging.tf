@@ -116,7 +116,7 @@ resource "aws_iam_policy" "cluster_log_forwarder_cloudwatch_policy" {
 }
 
 resource "aws_iam_role" "cluster_log_forwarder_cloudwatch_role" {
-  name = "CustomerLogDistribution-${var.cluster_name}-cluster-log-forwarder-cloudwatch-role"
+  name = "CustomerLogDistribution-${var.cluster_name}-cluster-log-forwarder-role"
 
   assume_role_policy = jsonencode({
     Version : "2012-10-17",

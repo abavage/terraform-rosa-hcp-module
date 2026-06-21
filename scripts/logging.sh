@@ -48,6 +48,6 @@ fi
 
 echo "ROSA login successful."
 
-echo "Enabling SIEM logging for cluster '${cluster}' with ARN: ${siem_role_arn}..."
-rosa edit cluster -c "${cluster}" --audit-log-arn "${siem_role_arn}" --yes
+echo "Enabling audit logging into CloudWatch for cluster '${cluster}' with ARN: ${logging_role_arn}..."
+rosa edit cluster -c "${cluster}" --audit-log-arn "${logging_role_arn}" --yes
 good_exit "SIEM logging enabled successfully for cluster '${cluster}'."

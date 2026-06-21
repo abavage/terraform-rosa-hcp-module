@@ -16,15 +16,14 @@ openshift_version     = "4.22.0"
 aws_region          = "ap-southeast-2"
 
 private_aws_subnet_ids = [
-  "subnet-049876fb31f8b542e",
-  "subnet-0983e09d6dfc3ab46",
-  "subnet-05b554103bd3e4145"
+  "subnet-02151632ef4b80f4f",
+  "subnet-08ec5faf8f9f54c5b",
+  "subnet-08cd6fcd1afaa4c58",
 ]
 
 
-
 public_aws_subnet_ids = [
-  "subnet-0047a9b13fe4b1d2f"
+  "subnet-0763aec1d7efceb8d"
 ]
 
 aws_private_subnet_cidrs = [
