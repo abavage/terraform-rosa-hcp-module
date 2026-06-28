@@ -48,7 +48,8 @@ resource "aws_iam_policy" "rosa_karpenter_controller_policy" {
           "ec2:DescribeSnapshots",
           "ec2:DescribeSpotPriceHistory",
           "ec2:DescribeSubnets",
-          "ec2:DescribeVpcs"
+          "ec2:DescribeVpcs",
+          "ec2:DescribePlacementGroups"
         ],
         "Resource" : "*"
       },
@@ -278,7 +279,6 @@ resource "aws_iam_role_policy_attachment" "rosa_karpenter_controller_attachment"
   role       = aws_iam_role.rosa_karpenter_controller_role.name
   policy_arn = aws_iam_policy.rosa_karpenter_controller_policy.arn
 }
-
 
 resource "aws_ec2_tag" "karpenter_tag_security_group" {
   resource_id = data.aws_security_group.selected.id

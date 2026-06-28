@@ -3,12 +3,12 @@
   "openshift_version": "4.19.6",
   "aws_region": "ap-southeast-2",
   "private_aws_subnet_ids": [
-    "subnet-029bc394dc04c4c5d",
-    "subnet-0bf64dfa24b064230",
-    "subnet-0af4bca92fcdd6ddd"
+  "subnet-0d31cb6b9c4eb22ce",
+  "subnet-0af7f7c761ffa7012",
+  "subnet-01e023e054c15e491"
   ],
   "public_aws_subnet_ids": [
-    "subnet-0e46e8c31787cc18c"
+    "subnet-028dbecbad6e453af"
   ],
 
   "aws_private_subnet_cidrs": [

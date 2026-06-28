@@ -6,8 +6,8 @@ cluster_name        = "one"
 #openshift_version    = "4.18.40"
 #openshift_version    = "4.19.31"
 #openshift_version    = "4.20.22"
-#openshift_version     = "4.21.14"
-openshift_version     = "4.22.0"
+#openshift_version     = "4.21.18"
+openshift_version     = "4.22.1"
 
 #upgrade_acknowledgements_for = "4.18"
 #upgrade_acknowledgements_for = "4.19"
@@ -16,14 +16,14 @@ openshift_version     = "4.22.0"
 aws_region          = "ap-southeast-2"
 
 private_aws_subnet_ids = [
-  "subnet-02151632ef4b80f4f",
-  "subnet-08ec5faf8f9f54c5b",
-  "subnet-08cd6fcd1afaa4c58",
+  "subnet-0d31cb6b9c4eb22ce",
+  "subnet-0af7f7c761ffa7012",
+  "subnet-01e023e054c15e491"
 ]
 
 
 public_aws_subnet_ids = [
-  "subnet-0763aec1d7efceb8d"
+  "subnet-028dbecbad6e453af"
 ]
 
 aws_private_subnet_cidrs = [

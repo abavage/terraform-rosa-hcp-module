@@ -33,7 +33,7 @@ trap 'handle_error' ERR
 # --- Script Logic Starts Here ---
 
 echo "#########################################"
-echo "SIEM Logging Script Start"
+echo "Audit Logging Script Start"
 echo "Current Date: $(date)"
 echo "#########################################"
 
