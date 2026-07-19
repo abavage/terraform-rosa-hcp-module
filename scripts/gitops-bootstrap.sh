@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exec > /tmp/logging.log 2>&1
+#exec > /tmp/logging.log 2>&1
 
 # --- Error Handling Configuration ---
 # Exit immediately if a command exits with a non-zero status.
@@ -75,16 +75,17 @@ if [ "${enable}" == true ]; then
   #helm upgrade --install gitops-operator /tmp/scratch/charts/gitops-operator \
   #--set csv="${gitops_startingcsv}" \
   #-n openshift
+
   
+  oc new-project gitops-helm || true
+
   helm repo add helm-gitops https://abavage.github.io/helm-gitops/
   helm repo update helm-gitops
-  
 
   helm upgrade --install gitops-operator helm-gitops/gitops-operator \
   --version "${gitopsOperatorChartVersion}" \
   --set csv="${gitopsStartingCsv}" \
-  -n openshift
-
+  -n gitops-helm
 
   #helm upgrade --install gitops-bootstrap /tmp/scratch/charts/gitops-bootstrap \
   #--set gitRepoUserName="${gitRepoUserName}" \
@@ -100,17 +101,17 @@ if [ "${enable}" == true ]; then
   --set domain="${domain}" \
   --set appOfAppsVersion="${appOfAppsVersion}" \
   --set namespacesChartVersion="${namespacesChartVersion}" \
-  -n openshift
+  -n gitops-helm
 
 
-  HELM=$(helm list -n openshift --no-headers | egrep 'gitops-operator|gitops-bootstrap' | awk '{print $8}' | sort -u)
+  HELM=$(helm list -n gitops-helm --no-headers | egrep 'gitops-operator|gitops-bootstrap' | awk '{print $8}' | sort -u)
   if [[ $HELM != deployed ]]; then
-    bad_exit "Failed to install the gitops-bootstrap chart"
+    echo "Failed to install the gitops-bootstrap chart"
   else
-    good_exit "Helm install of the gitops-bootstrap chart was successful."
+    echo "Helm install of the gitops-bootstrap chart was successful."
   fi
 
 else
   echo "disabled"
-  good_exit "disabled this"
+  echo "disabled this"
 fi

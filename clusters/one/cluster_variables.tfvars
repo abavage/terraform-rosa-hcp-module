@@ -7,7 +7,7 @@ cluster_name        = "one"
 #openshift_version    = "4.19.31"
 #openshift_version    = "4.20.22"
 #openshift_version     = "4.21.18"
-openshift_version     = "4.22.1"
+openshift_version     = "4.21.10"
 
 #upgrade_acknowledgements_for = "4.18"
 #upgrade_acknowledgements_for = "4.19"
@@ -16,26 +16,26 @@ openshift_version     = "4.22.1"
 aws_region          = "ap-southeast-2"
 
 private_aws_subnet_ids = [
-  "subnet-0d31cb6b9c4eb22ce",
-  "subnet-0af7f7c761ffa7012",
-  "subnet-01e023e054c15e491"
+  "subnet-0018760a19226d68d",
+  "subnet-0de60afdf831032d8",
+  "subnet-0022d486727515039"
 ]
 
 
 public_aws_subnet_ids = [
-  "subnet-028dbecbad6e453af"
+  "subnet-094083422d1a9dc3d"
 ]
 
 aws_private_subnet_cidrs = [
   "10.0.8.0/23",
   "10.0.10.0/23",
-  "10.0.12.0/23",
+  "10.0.12.0/23"
 ]
 
 aws_availability_zones = [
   "ap-southeast-2a",
   "ap-southeast-2b",
-  "ap-southeast-2c",
+  "ap-southeast-2c"
 ]
 
 private = false
@@ -45,6 +45,7 @@ properties = {
 }
 
 infrastructureGitPath = "nonprod/one/infrastructure.yaml"
+#infrastructureGitPath = "this/cluster/one/infrastructure.yaml"
 namespaceGitPath      = "nonprod/one"
 
 sns_endpoint_subscription = [
@@ -53,12 +54,12 @@ sns_endpoint_subscription = [
 ]
 
 
-gitopsOperatorChartVersion = "0.0.4"
+gitopsOperatorChartVersion = "0.0.5"
 
 gitops_bootstrap = {
   gitopsStartingCsv = "openshift-gitops-operator.v1.20.1"
-  gitopsOperatorBootstrapChartVersion = "0.0.23"
-  appOfAppsVersion = "0.0.3"
+  gitopsOperatorBootstrapChartVersion = "0.0.24"
+  appOfAppsVersion = "0.0.5"
   namespacesChartVersion = "0.0.4"
 }
 

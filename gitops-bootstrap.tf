@@ -67,8 +67,8 @@ resource "terraform_data" "bootstrap_gitops" {
   depends_on = [
     module.rosa_cluster_hcp
   ]
-  #triggers_replace = {
-  # always_run = timestamp()
-  #}
+  triggers_replace = {
+    always_run = timestamp()
+  }
 
 }

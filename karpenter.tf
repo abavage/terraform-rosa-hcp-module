@@ -300,8 +300,3 @@ resource "aws_ec2_tag" "karpenter_tag_private_subnets" {
     module.rosa_cluster_hcp
   ]
 }
-
-
-output "sgs" {
-  value = data.aws_security_group.selected
-}

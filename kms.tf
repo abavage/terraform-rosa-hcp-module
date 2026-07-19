@@ -2,6 +2,8 @@
 resource "aws_kms_key" "ebs" {
   description             = "${var.cluster_name} kms key for ebs volumes"
   deletion_window_in_days = 10
+  enable_key_rotation     = true
+  rotation_period_in_days = 90
   tags = merge(
     local.tags,
     {
@@ -15,6 +17,8 @@ resource "aws_kms_key" "ebs" {
 resource "aws_kms_key" "etcd" {
   description             = "${var.cluster_name} kms key for etcd"
   deletion_window_in_days = 10
+  enable_key_rotation     = true
+  rotation_period_in_days = 90
   tags = merge(
     local.tags,
     {
@@ -28,6 +32,8 @@ resource "aws_kms_key" "etcd" {
 resource "aws_kms_key" "efs" {
   description             = "${var.cluster_name} kms key for efs"
   deletion_window_in_days = 10
+  enable_key_rotation     = true
+  rotation_period_in_days = 90
   tags = merge(
     local.tags,
     {
